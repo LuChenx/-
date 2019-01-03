@@ -154,7 +154,6 @@
 									        	  mainnode.nodes = nodes;
 									        	  tree.push(mainnode);
 									        	  $('#auth').treeview({
-									        		  height:300,
 									        		  data: tree,
 									        		  showBorder:false,
 									        		  showCheckbox:true,
