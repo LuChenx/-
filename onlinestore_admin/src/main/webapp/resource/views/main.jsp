@@ -230,7 +230,7 @@
 						
 			<!-- start: Content -->
 	<div id="content" class="span10">
-		<iframe id="contentframe" style="width: 100%;height: 80%;" frameborder="0" ></iframe>
+		<iframe id="contentframe" style="width: 100%;height: 90%;" frameborder="0" ></iframe>
 		<script>
 			function linkto(page){
 				$("#contentframe").attr('src',"<%=basePath%>resource/views/"+page);

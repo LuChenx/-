@@ -16,6 +16,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -62,7 +63,7 @@ public class HttpClientUtils
 		}
 		if(StringUtils.isNotEmpty(result))
 		{
-			resultJson = JSONObject.parseObject(result);
+			resultJson = JSON.parseObject(result);
 		}
 		return resultJson;
 	}
