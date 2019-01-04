@@ -65,7 +65,6 @@
 				
 				//删除岗位信息
 				function deleteRole(roleId){
-					alert(roleId);
 					$.ajax({
 				          type: "post",
 				          url: "<%=basePath%>system/role/deleteConfig" ,
@@ -90,7 +89,27 @@
 				}
 				//编辑岗位信息
 				function editRole(roleId){
-					
+					$.ajax({
+				          type: "post",
+				          url: "<%=basePath%>system/role/configDetail" ,
+				          data :JSON.stringify({
+								uid:1,
+								appId:1,
+								roleId:roleId
+					 	  }),
+					 	  contentType: 'application/json; charset=UTF-8',
+					      dataType:'json',
+				          success: function (result) {
+				        	  if(result.rcode ==  "000000"){
+				        		  
+				        	  }else{
+				        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
+				        	  }
+				          },
+				          error:function(){
+				        	  layer.msg("网络异常", {time : 1500, icon : 5});
+				          }
+				     });
 				}
 		</script>
 
