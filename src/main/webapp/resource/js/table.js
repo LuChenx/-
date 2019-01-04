@@ -2,14 +2,15 @@
  * 定制化表格
  */
 (function () {  
-    function init(table,url,params,titles,formatter,cellStyle,hasCheckbox,sef,search,columns,showHeader,btnExportId,devaultSize,pageSize,queryJsonParam,pagination) {  
-    	var h = $(document).height()-100;
+    function init(table,url,params,titles,formatter,cellStyle,hasCheckbox,sef,search,columns,showHeader,btnExportId,devaultSize,pageSize,queryJsonParam,pagination,sidePagination,onlyInfoPagination,sortName) {  
+    	var h = $(document).height();
         $(table).bootstrapTable('destroy').bootstrapTable({  
             url: url,                           //请求后台的URL（*）  
             method: 'POST',                     //请求方式（*）  
             pagination: pagination,                   //是否显示分页（*）  
+            onlyInfoPagination:onlyInfoPagination,
             queryParams: queryJsonParam,           //传递参数（*），这里应该返回一个object，即形如{param1:val1,param2:val2}  
-            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）  
+            sidePagination: sidePagination,           //分页方式：client客户端分页，server服务端分页（*）  
             pageNumber:1,                       //初始化加载第一页，默认第一页  
             height:h,
             pageSize: devaultSize,                       //每页的记录行数（*）  
@@ -20,7 +21,8 @@
             striped: true,                      //是否显示行间隔色  
             cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）  
             sortable: true,                    //是否启用排序  
-            sortOrder: "asc",                   //排序方式  
+            sortName: sortName[0],
+            sortOrder: "desc",                   //排序方式  
             search: search,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大  
             strictSearch: true,  
             showColumns: false,                  //是否显示所有的列  
@@ -39,7 +41,7 @@
 			responseHandler: function (res) {//这里我查看源码的，在ajax请求成功后，发放数据之前可以对返回的数据进行处理，返回什么部分的数据，比如我的就需要进行整改的！
 				return res;
 			},
-            columns: createCols(params,titles,formatter,cellStyle,hasCheckbox,sef),  
+            columns: createCols(params,titles,formatter,cellStyle,hasCheckbox,sef,sortName),  
             onLoadSuccess: function(data){ //加载成功时执行
 				layer.msg("数据加载成功", {time : 1000, icon : 1});
 			},
@@ -47,24 +49,20 @@
 				layer.msg("加载数据失败", {time : 1500, icon : 5});
 			},
 			
-			//>>>>>>>>>>>>>>导出excel表格设置
 		    showExport: false,              //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
 		    exportDataType: "all",              //basic', 'all', 'selected'.
 		    exportTypes:['xlsx'],	    //导出类型['json', 'xml', 'csv', 'txt', 'sql',  'xlsx', 'excel'],若想要绑定自己的按钮的话数组第一个为导出类型，默认xlsx
 		    exportButton: $(btnExportId),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
 		    exportOptions:{
-		        //ignoreColumn: [0,0],            //忽略某一列的索引  
 		        fileName: '导出数据',              //文件名称设置  
 		        worksheetName: 'Sheet1',          //表格工作区名称  
 		        tableName: '数据表',  
 		        excelstyles: ['background-color', 'color', 'font-size', 'font-weight']
-		        //onMsoNumberFormat: DoOnMsoNumberFormat  
 		    }
-		      //导出excel表格设置<<<<<<<<<<<<<<<<
         }); 
 
     }  
-    function createCols(params,titles,formatter,cellStyle,hasCheckbox,sef) {  
+    function createCols(params,titles,formatter,cellStyle,hasCheckbox,sef,sortName) {  
         if(params.length!=titles.length)  
             return null;  
         var arr = [];  
@@ -156,6 +154,11 @@
             if(cellStyle!=null){
             	obj.cellStyle=cellStyle[i];
             }
+            for(var k = 0;k<sortName.length;k++){
+            	if(obj.field == sortName[k]){
+            		obj.sortable = true;
+            	}
+            }
            // obj.searchable=true;
             arr.push(obj);  
         }  
@@ -208,11 +211,14 @@
     	});
     	
     	this.hasCheckbox = false;
+    	this.sortName=[];
     	this.sef = false;
+    	this.sidePagination = "server";
     	this.search = false;
     	this.columns = false;
     	this.showHeader = true;
     	this.pagination = true;
+    	this.onlyInfoPagination = false;
     	this.btnExportId = '';
     	this.pageSize = [5, 10, 15, 20 ,50, 'All'];
     	this.devaultSize = 10;
@@ -247,6 +253,17 @@
 			return this;
     	}
     	
+    	
+    	this.setSidePagination = function(param){
+    		this.sidePagination = param;
+    		return this;
+    	}
+    	
+    	this.setSortName = function(param){
+    		this.sortName = param;
+    		return this;
+    	}
+    	
     	this.setQueryJsonParam = function(param){
     		this.queryJsonParam = param;
     		return this;
@@ -254,6 +271,11 @@
     	
     	this.setPagination = function(param){
     		this.pagination = param;
+    		return this;
+    	}
+    	
+    	this.onlyInfoPagination = function(param){
+    		this.onlyInfoPagination = param;
     		return this;
     	}
     	
@@ -287,7 +309,7 @@
     		return this;
     	} 
     	this.create = function () {
-    		init(table,url,params,titles,this.formatter,this.cellStyle,this.hasCheckbox,this.sef,this.search,this.columns,this.showHeader,this.btnExportId,this.devaultSize,this.pageSize,this.queryJsonParam,this.pagination); 
+    		init(table,url,params,titles,this.formatter,this.cellStyle,this.hasCheckbox,this.sef,this.search,this.columns,this.showHeader,this.btnExportId,this.devaultSize,this.pageSize,this.queryJsonParam,this.pagination,this.sidePagination,this.onlyInfoPagination,this.sortName); 
     		//设置表头颜色
 		//	$("#table thead").css("background","linear-gradient(180deg, rgba(166, 221, 242, 1) 0%, rgba(166, 221, 242, 1) 0%, rgba(78, 175, 252, 1) 99%, rgba(78, 175, 252, 1) 100%)");
     	}

@@ -171,14 +171,14 @@
 						<li>
 							<a class="dropmenu" href="#"><i class="icon-rss"></i><span class="hidden-tablet"> 系统管理</span></a>
 							<ul>
-								<li><a class="submenu" href="#" onclick='linkto("user/roles.jsp")'><i class="icon-coffee"></i><span class="hidden-tablet"> 岗位设置</span></a></li>
-								<li><a class="submenu" href="messages.html"><i class="icon-key"></i><span class="hidden-tablet"> 岗位权限</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/roles.jsp")'><i class="icon-coffee"></i><span class="hidden-tablet"> 岗位设置</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/role_auth.jsp")'><i class="icon-key"></i><span class="hidden-tablet"> 岗位权限</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-cog"></i><span class="hidden-tablet"> 系统选项</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-cogs"></i><span class="hidden-tablet"> 系统配置</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-sitemap"></i><span class="hidden-tablet"> 地区管理</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-home"></i><span class="hidden-tablet"> 仓库名称</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-book"></i><span class="hidden-tablet"> 商品名称</span></a></li>
-								<li><a class="submenu" href="tasks.html"><i class="icon-calendar"></i><span class="hidden-tablet"> 价格体系</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/priceconifg.jsp")'><i class="icon-calendar"></i><span class="hidden-tablet"> 价格体系</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-user"></i><span class="hidden-tablet"> 操作员管理</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 初始化进销存</span></a></li>
 							</ul>	
@@ -230,7 +230,7 @@
 						
 			<!-- start: Content -->
 	<div id="content" class="span10">
-		<iframe id="contentframe" style="width: 100%;height: 90%;" frameborder="0" ></iframe>
+		<iframe id="contentframe" style="width: 100%;height: 85%;" frameborder="0" ></iframe>
 		<script>
 			function linkto(page){
 				$("#contentframe").attr('src',"<%=basePath%>resource/views/"+page);

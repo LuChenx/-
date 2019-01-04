@@ -109,6 +109,26 @@ public class BaseController
 		return result;
 	}
 
+	@ RequestMapping ("/updateConfig")
+	@ ResponseBody
+	public JSONObject updateConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/role/updateConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
 	@ RequestMapping ("/deleteConfig")
 	@ ResponseBody
 	public JSONObject deleteConfig(@ RequestBody JSONObject jsonObject)
@@ -138,6 +158,26 @@ public class BaseController
 		{
 			jsonObject.put("appKey", systemConfig.getAppKey());
 			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/role/configDetail",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/roleAuthConfig")
+	@ ResponseBody
+	public JSONObject roleAuthConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/role/roleAuthConfig",
 				jsonObject);
 		}
 		catch (Exception e)

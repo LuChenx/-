@@ -521,7 +521,7 @@
             return sprintf('Showing %s to %s of %s rows', pageFrom, pageTo, totalRows);
         },
         formatDetailPagination: function (totalRows) {
-            return sprintf('Showing %s rows', totalRows);
+            return sprintf('共   %s 行', totalRows);
         },
         formatSearch: function () {
             return 'Search';
