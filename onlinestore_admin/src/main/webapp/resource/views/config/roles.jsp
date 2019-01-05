@@ -72,27 +72,30 @@
 				
 				//删除岗位信息
 				function deleteRole(roleId){
-					$.ajax({
-				          type: "post",
-				          url: "<%=basePath%>system/role/deleteConfig" ,
-				          data :JSON.stringify({
-								uid:1,
-								appId:1,
-								roleId:roleId
-					 	  }),
-					 	  contentType: 'application/json; charset=UTF-8',
-					      dataType:'json',
-				          success: function (result) {
-				        	  if(result.rcode ==  "000000"){
-				        		  $("#table").bootstrapTable('refresh');
-				        	  }else{
-				        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
-				        	  }
-				          },
-				          error:function(){
-				        	  layer.msg("网络异常", {time : 1500, icon : 5});
-				          }
-				     });
+					layer.confirm('确定删除?', {icon: 3, title:'提示'}, function(index){
+						$.ajax({
+					          type: "post",
+					          url: "<%=basePath%>system/role/deleteConfig" ,
+					          data :JSON.stringify({
+									uid:1,
+									appId:1,
+									roleId:roleId
+						 	  }),
+						 	  contentType: 'application/json; charset=UTF-8',
+						      dataType:'json',
+					          success: function (result) {
+					        	  if(result.rcode ==  "000000"){
+					        		  $("#table").bootstrapTable('refresh');
+					        	  }else{
+					        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
+					        	  }
+					          },
+					          error:function(){
+					        	  layer.msg("网络异常", {time : 1500, icon : 5});
+					          }
+					     });
+						 layer.close(index);
+					});
 				}
 				//编辑岗位信息
 				function editRole(roleId){
@@ -153,7 +156,7 @@
                         aria-hidden="true">×
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                   	 新增岗位
+                   	 编辑岗位
                 </h4>
             </div>
             <div class="modal-body">
