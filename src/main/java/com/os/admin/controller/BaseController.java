@@ -188,4 +188,84 @@ public class BaseController
 		}
 		return result;
 	}
+
+	@ RequestMapping ("/priceConfig")
+	@ ResponseBody
+	public JSONObject priceConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/priceConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/addPriceConfig")
+	@ ResponseBody
+	public JSONObject addPriceConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/addPriceConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/updatePriceConfig")
+	@ ResponseBody
+	public JSONObject updatePriceConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/updatePriceConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/deletePriceConfig")
+	@ ResponseBody
+	public JSONObject deletePriceConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/deletePriceConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
 }

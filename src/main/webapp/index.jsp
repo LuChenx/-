@@ -16,7 +16,7 @@
 					
 			<div class="row-fluid">
 				<div class="login-box">
-					<h2>Login to Admin System</h2>
+					<h2>Welcome to Admin System</h2>
 					<form class="form-horizontal" action="<%=basePath%>resource/views/main.jsp" method="post" />
 						<fieldset>
 							

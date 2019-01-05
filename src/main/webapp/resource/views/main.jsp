@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Admin</title>
+<title>Admin System</title>
 </head>
 <body>
 	<!-- start: Header -->
@@ -178,7 +178,7 @@
 								<li><a class="submenu" href="tasks.html"><i class="icon-sitemap"></i><span class="hidden-tablet"> 地区管理</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-home"></i><span class="hidden-tablet"> 仓库名称</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-book"></i><span class="hidden-tablet"> 商品名称</span></a></li>
-								<li><a class="submenu" href="#" onclick='linkto("config/priceconifg.jsp")'><i class="icon-calendar"></i><span class="hidden-tablet"> 价格体系</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/priceconfig.jsp")'><i class="icon-calendar"></i><span class="hidden-tablet"> 价格体系</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-user"></i><span class="hidden-tablet"> 操作员管理</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 初始化进销存</span></a></li>
 							</ul>	
