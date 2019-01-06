@@ -173,13 +173,13 @@
 							<ul>
 								<li><a class="submenu" href="#" onclick='linkto("config/roles.jsp")'><i class="icon-coffee"></i><span class="hidden-tablet"> 岗位设置</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/role_auth.jsp")'><i class="icon-key"></i><span class="hidden-tablet"> 岗位权限</span></a></li>
-								<li><a class="submenu" href="tasks.html"><i class="icon-cog"></i><span class="hidden-tablet"> 系统选项</span></a></li>
-								<li><a class="submenu" href="tasks.html"><i class="icon-cogs"></i><span class="hidden-tablet"> 系统配置</span></a></li>
-								<li><a class="submenu" href="tasks.html"><i class="icon-sitemap"></i><span class="hidden-tablet"> 地区管理</span></a></li>
-								<li><a class="submenu" href="tasks.html"><i class="icon-home"></i><span class="hidden-tablet"> 仓库名称</span></a></li>
-								<li><a class="submenu" href="tasks.html"><i class="icon-book"></i><span class="hidden-tablet"> 商品名称</span></a></li>
+								<li><a class="submenu" href="#"><i class="icon-cog"></i><span class="hidden-tablet"> 系统选项</span></a></li>
+								<li><a class="submenu" href="#"><i class="icon-cogs"></i><span class="hidden-tablet"> 系统配置</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/areaconfig.jsp")'><i class="icon-sitemap"></i><span class="hidden-tablet"> 地区管理</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/repertoryconfig.jsp")'><i class="icon-home"></i><span class="hidden-tablet"> 仓库名称</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/brandconfig.jsp")'><i class="icon-book"></i><span class="hidden-tablet"> 商品名称</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/priceconfig.jsp")'><i class="icon-calendar"></i><span class="hidden-tablet"> 价格体系</span></a></li>
-								<li><a class="submenu" href="tasks.html"><i class="icon-user"></i><span class="hidden-tablet"> 操作员管理</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("user/userManager.jsp")'><i class="icon-user"></i><span class="hidden-tablet"> 操作员管理</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 初始化进销存</span></a></li>
 							</ul>	
 						</li>
@@ -235,6 +235,12 @@
 			function linkto(page){
 				$("#contentframe").attr('src',"<%=basePath%>resource/views/"+page);
 			}
+			
+			$(document.body).css({
+		    	   "overflow-x":"hidden",
+		    	   "overflow-y":"hidden"
+		    });
+			
 		</script>
 	</div><!--/.fluid-container-->
 	

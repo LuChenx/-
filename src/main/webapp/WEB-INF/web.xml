@@ -58,4 +58,8 @@
 		<session-timeout>120</session-timeout>
 	</session-config>
 
+ 	<error-page>
+     <error-code>404</error-code>
+     <location>/resource/views/error/404.jsp</location>
+   </error-page>
 </web-app>
