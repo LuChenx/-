@@ -6,12 +6,24 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //custom-theme -->
+<link href="<%=basePath%>resource/css/404style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- //js --> 
+<!-- font-awesome icons -->
+<link href="<%=basePath%>resource/css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
 <title>Admin System</title>
 </head>
 <style>
 </style>
 <body>
-<div class="container-fluid-full">
+<div class="main">
+	<canvas id="myCanvas"></canvas>
+	<div class="container-fluid-full" style="margin-top: -55%">
 		<div class="row-fluid">
 					
 			<div class="row-fluid">
@@ -45,7 +57,23 @@
 				</div><!--/fluid-row-->
 				
 	</div><!--/.fluid-container-->
-
+	
+</div>
+	<script src="<%=basePath%>resource/js/particles.min.js"></script>
+    <script>
+      $(document.body).css({
+    	   "overflow-x":"hidden",
+    	   "overflow-y":"hidden"
+      });
+      window.onload = function() {
+        Particles.init({
+          selector: '#myCanvas',
+          color: '#6b6b6b',
+          connectParticles: true,
+          minDistance: 100
+        });
+      };
+    </script>
 
 </body>
 </html>

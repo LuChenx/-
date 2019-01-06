@@ -22,7 +22,7 @@
             cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）  
             sortable: true,                    //是否启用排序  
             sortName: sortName[0],
-            sortOrder: "desc",                   //排序方式  
+            sortOrder: "asc",                   //排序方式  
             search: search,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大  
             strictSearch: true,  
             showColumns: false,                  //是否显示所有的列  

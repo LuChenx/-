@@ -189,6 +189,7 @@ public class BaseController
 		return result;
 	}
 
+	//价格配置
 	@ RequestMapping ("/priceConfig")
 	@ ResponseBody
 	public JSONObject priceConfig(@ RequestBody JSONObject jsonObject)
@@ -258,6 +259,249 @@ public class BaseController
 		{
 			jsonObject.put("appKey", systemConfig.getAppKey());
 			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/deletePriceConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	//区域配置
+	@ RequestMapping ("/areaConfig")
+	@ ResponseBody
+	public JSONObject areaConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/areaConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/addAreaConfig")
+	@ ResponseBody
+	public JSONObject addAreaConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/addAreaConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/updateAreaConfig")
+	@ ResponseBody
+	public JSONObject updateAreaConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/updateAreaConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/deleteAreaConfig")
+	@ ResponseBody
+	public JSONObject deleteAreaConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/deleteAreaConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	//仓库配置
+	@ RequestMapping ("/repertoryConfig")
+	@ ResponseBody
+	public JSONObject repertoryConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/repertoryConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/addRepertoryConfig")
+	@ ResponseBody
+	public JSONObject addRepertoryConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/addRepertoryConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/updateRepertoryConfig")
+	@ ResponseBody
+	public JSONObject updateRepertoryConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils
+				.doPost(systemConfig.getHostName() + "system/config/updateRepertoryConfig", jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/deleteRepertoryConfig")
+	@ ResponseBody
+	public JSONObject deleteRepertoryConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils
+				.doPost(systemConfig.getHostName() + "system/config/deleteRepertoryConfig", jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	//商品配置
+	@ RequestMapping ("/brandConfig")
+	@ ResponseBody
+	public JSONObject brandConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/brandConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/addBrandConfig")
+	@ ResponseBody
+	public JSONObject addBrandConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/addBrandConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/updateBrandConfig")
+	@ ResponseBody
+	public JSONObject updateBrandConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/updateBrandConfig",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/deleteBrandConfig")
+	@ ResponseBody
+	public JSONObject deleteBrandConfig(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/deleteBrandConfig",
 				jsonObject);
 		}
 		catch (Exception e)
