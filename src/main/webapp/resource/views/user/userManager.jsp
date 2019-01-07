@@ -77,6 +77,9 @@
 						$('#areaauth').treeview('uncheckAll');
 						$('#repertoryauth').treeview('uncheckAll');
 						$('#brandauth').treeview('uncheckAll');
+						$("#repertoryauthtab").show();
+						$("#areaauthtab").show();
+						$("#brandauthtab").show();
 						$("#modifiedbtu").hide();
 		        		$("#subtu").show();
 						$("#modal").click();
@@ -549,25 +552,72 @@
                     					var autharray = $('#auth').treeview('getChecked');
                     					autharray.forEach(function(value,i){
                     						if(value.nodeId != 0 ){
-                    							auth = auth + value.nodeId+",";
+                    							auth = auth + roleIdList[value.nodeId-1]+",";
                     						}
                     					});
-                    					//查询价格权限
-                    					var priceauth = "";
-                    					var priceautharray = $('#priceauth').treeview('getChecked');
-                    					priceautharray.forEach(function(value,i){
-                    						if(value.nodeId != 0 ){
-                    							priceauth = priceauth + value.nodeId+",";
-                    						}
-                    					});
-                    					if($("#rolename").val() == ""){
-                    						layer.msg("请输入岗位名称", {time : 1500, icon : 5});
-                    					}else if(auth == ""){
-                    						layer.msg("请选择岗位权限", {time : 1500, icon : 5});
-                    					}else if(priceauth == ""){
-                    						layer.msg("请选择价格权限", {time : 1500, icon : 5});
+                    					//查询地区权限
+                    					var areaauth = "";
+                    					if($("#areaStatus").is(':checked')){
+                    						areaIdList.forEach(function(value,i){
+                    							areaauth = areaauth + areaIdList[i]+",";
+                    						});
                     					}else{
-                    						saveRole(auth,priceauth);
+	                    					var areaautharray = $('#areaauth').treeview('getChecked');
+	                    					areaautharray.forEach(function(value,i){
+	                    						if(value.nodeId != 0 ){
+	                    							areaauth = areaauth + areaIdList[value.nodeId-1]+",";
+	                    						}
+	                    					});
+                    					}
+                    					
+                    					//查询仓库权限
+                    					var repertoryauth = "";
+                    					if($("#repertoryStatus").is(':checked')){
+                    						repertoryIdList.forEach(function(value,i){
+                    							repertoryauth = repertoryauth + repertoryIdList[i]+",";
+                    						});
+                    					}else{
+	                    					var repertoryautharray = $('#repertoryauth').treeview('getChecked');
+	                    					repertoryautharray.forEach(function(value,i){
+	                    						if(value.nodeId != 0 ){
+	                    							repertoryauth = repertoryauth + repertoryIdList[value.nodeId-1]+",";
+	                    						}
+	                    					});
+                    					}
+                    					
+                    					//查询仓库权限
+                    					var brandauth = "";
+                    					if($("#brandStatus").is(':checked')){
+                    						brandIdList.forEach(function(value,i){
+                    							brandauth = brandauth + brandIdList[i]+",";
+                    						});
+                    					}else{
+	                    					var brandautharray = $('#brandauth').treeview('getChecked');
+	                    					brandautharray.forEach(function(value,i){
+	                    						if(value.nodeId != 0 ){
+	                    							brandauth = brandauth + brandIdList[value.nodeId-1]+",";
+	                    						}
+	                    					});
+                    					}
+                    					
+                    					if($("#account").val() == ""){
+                    						layer.msg("请输用户名", {time : 1500, icon : 5});
+                    					}else if($("#password").val() == ""){
+                    						layer.msg("请输入密码", {time : 1500, icon : 5});
+                    					}else if($("#username").val() == ""){
+                    						layer.msg("请输入用户姓名", {time : 1500, icon : 5});
+                    					}else if($("#userphone").val() == ""){
+                    						layer.msg("请输入用户联系电话", {time : 1500, icon : 5});
+                    					}else if(auth == ""){
+                    						layer.msg("请选择用户岗位权限", {time : 1500, icon : 5});
+                    					}else if(areaauth == ""){
+                    						layer.msg("请选择用户地区权限", {time : 1500, icon : 5});
+                    					}else if(repertoryauth == ""){
+                    						layer.msg("请选择用户仓库权限", {time : 1500, icon : 5});
+                    					}else if(brandauth == ""){
+                    						layer.msg("请选择用户品牌权限", {time : 1500, icon : 5});
+                    					}else{
+                    						
                     					}
                     				});
                     				
