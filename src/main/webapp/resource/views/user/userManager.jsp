@@ -65,10 +65,20 @@
 					});
 					
 					$("#add").click(function(){
-						$("#rolename").val();
-						$("#roledesc").val();
+						$("#account").val("");
+						$("#username").val("");
+						$("#password").val("");
+						$("#userphone").val("");
+						$("#areaStatus").removeAttr("checked");
+						$("#repertoryStatus").removeAttr("checked");
+						$("#brandStatus").removeAttr("checked");
+						$("#priceStatus").removeAttr("checked");
 						$('#auth').treeview('uncheckAll');
-						$('#priceauth').treeview('uncheckAll');
+						$('#areaauth').treeview('uncheckAll');
+						$('#repertoryauth').treeview('uncheckAll');
+						$('#brandauth').treeview('uncheckAll');
+						$("#modifiedbtu").hide();
+		        		$("#subtu").show();
 						$("#modal").click();
 					});
 				});
@@ -138,80 +148,122 @@
                    	 编辑操作员
                 </h4>
             </div>
-            <div class="modal-body" style="height: 300px">
+            <div class="modal-body" >
                <ul id="myTab" class="nav nav-tabs">
 					<li class="active">
 						<a href="#basic" data-toggle="tab">基本信息</a>
 					</li>
 					<li><a href="#auth" data-toggle="tab">岗位权限</a>
 					</li>
-					<li><a href="#priceauth" data-toggle="tab">地区权限</a>
+					<li id="areaauthtab" ><a href="#areaauth" data-toggle="tab">地区权限</a>
 					</li>
-					<li><a href="#priceauth" data-toggle="tab">仓库权限</a>
+					<li id="repertoryauthtab" ><a href="#repertoryauth" data-toggle="tab">仓库权限</a>
 					</li>
-					<li><a href="#priceauth" data-toggle="tab">品牌权限</a>
+					<li id="brandauthtab" ><a href="#brandauth" data-toggle="tab">品牌权限</a>
 					</li>
 				</ul>
 				<br>
 				<form class="form-horizontal" role="form">
 				<div id="myTabContent" class="tab-content">
 				    <div class="tab-pane fade in active" id="basic">
+				    
 				    	 <div class="form-group">
 						    <label for="account" class="col-sm-2 control-label">用户名</label>
 						   <div class="col-sm-10">
 						    <input type="text" class="form-control" id="account" placeholder="请输入用户名">
 						   </div>
 						  </div>
+						  
 						  <div class="form-group">
-						    <label for="password" class="col-sm-2 control-label">密码</label>
+						    <label for="password" class="col-sm-2 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
 						     <div class="col-sm-10">
 						    <input type="password" class="form-control" id="password" placeholder="请输入密码">
 						  	</div>
 						  </div>
+						  
 						  <div class="form-group">
-						    <label for="username" class="col-sm-2 control-label">姓名</label>
+						    <label for="username" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;名</label>
 						   <div class="col-sm-10">
 						    <input type="text" class="form-control" id="username" placeholder="请输入姓名">
 						   </div>
 						  </div>
+						  
 						  <div class="form-group">
 						    <label for="userphone" class="col-sm-2 control-label">手机号</label>
 						     <div class="col-sm-10">
 						    <input type="text" class="form-control" id="userphone" placeholder="请输入手机号">
-						  	</div>
-						  </div>
+						    </div>
+						 </div>
+						 <div style="margin-left: 30px">
 						   <div class="checkbox">
-							    <label>地区：<input type="checkbox" value="">不限制地区权限</label>
+							    <label id="arealabel"><input type="checkbox" id="areaStatus">不限制地区权限</label>
+							    <script type="text/javascript">
+							    	$("#arealabel").click(function(){
+							    		if($("#areaStatus").is(':checked')){
+							    			$("#areaauthtab").hide();
+							    			$('#areaauth').treeview('uncheckAll');
+							    		}else{
+							    			$("#areaauthtab").show();
+							    		}
+							    	});
+							    </script>
 							</div>
 							<div class="checkbox">
-							    <label>仓库：<input type="checkbox" value="">不限制仓库权限</label>
+							    <label id="repertorylabel"><input type="checkbox" id="repertoryStatus">不限制仓库权限</label>
+							    <script type="text/javascript">
+							    	$("#repertorylabel").click(function(){
+							    		if($("#repertoryStatus").is(':checked')){
+							    			$("#repertoryauthtab").hide();
+							    			$('#repertoryauth').treeview('uncheckAll');
+							    		}else{
+							    			$("#repertoryauthtab").show();
+							    		}
+							    	});
+							    </script>
 							</div>
 							<div class="checkbox">
-							    <label>品牌：<input type="checkbox" value="">不限制品牌权限</label>
+							    <label id="brandlabel"><input type="checkbox" id="brandStatus">不限制品牌权限</label>
+							    <script type="text/javascript">
+							    	$("#brandlabel").click(function(){
+							    		if($("#brandStatus").is(':checked')){
+							    			$("#brandauthtab").hide();
+							    			$('#brandauth').treeview('uncheckAll');
+							    		}else{
+							    			$("#brandauthtab").show();
+							    		}
+							    	});
+							    </script>
 							</div>
-							<div class="checkbox">
-							    <label>价格：<input type="checkbox" value="">不限制价格权限</label>
-							</div>
+						</div>	
 				    </div>
 				    <div class="tab-pane fade" id="auth">
 				    	<script type="text/javascript">
+				    	    var roleIdList = [];
 				    		$(function(){
 				    			getTree();
 				    			function getTree() {
 				    				$.ajax({
 								          type: "post",
-								          url: "<%=basePath%>system/role/authConfig" ,
+								          url: "<%=basePath%>system/role/config" ,
 								          data :JSON.stringify({
 												uid:1,
-												appId:1
+												appId:1,
+												sortOrder:'asc'
 									 	  }),
 									 	  contentType: 'application/json; charset=UTF-8',
 									      dataType:'json',
 								          success: function (result) {
 									          if(result.rcode ==  "000000"){
 									        	  var tree = [];
-									        	  var mainnode = {text:"岗位权限"};
-									        	  var nodes = result.nodes;
+									        	  var mainnode = {text:"所属岗位"};
+									        	  var rows = result.rows;
+									        	  var nodes = [];
+									        	  rows.forEach(function(value,index){
+									        		  var node = {};
+									        		  node.text = value.roleName;
+									        		  roleIdList.push(value.id);
+									        		  nodes.push(node);
+									        	  });
 									        	  mainnode.nodes = nodes;
 									        	  tree.push(mainnode);
 									        	  $('#auth').treeview({
@@ -239,7 +291,7 @@
 										      }
 								          },
 								          error : function() {
-								        	  layer.msg("岗位权限配置获取失败！", {time : 1500, icon : 5});
+								        	  layer.msg("岗位配置获取失败！", {time : 1500, icon : 5});
 								          }
 								      });
 				    			}
@@ -283,43 +335,52 @@
 				            
 				    	</script>
 				    </div>
-				    <div class="tab-pane fade" id="priceauth">
+				    <div class="tab-pane fade" id="areaauth">
 				    	<script type="text/javascript">
+				    	    var areaIdList = [];
 				    		$(function(){
 				    			getTree();
 				    			function getTree() {
 				    				$.ajax({
 								          type: "post",
-								          url: "<%=basePath%>system/role/priceAuthConfig" ,
+								          url: "<%=basePath%>system/role/areaConfig" ,
 								          data :JSON.stringify({
 												uid:1,
-												appId:1
+												appId:1,
+												sortOrder:'asc'
 									 	  }),
 									 	  contentType: 'application/json; charset=UTF-8',
 									      dataType:'json',
 								          success: function (result) {
 									          if(result.rcode ==  "000000"){
 									        	  var tree = [];
-									        	  var mainnode = {text:"价格权限"};
-									        	  var nodes = result.nodes;
+									        	  var mainnode = {text:"地区列表"};
+									        	  var rows = result.rows;
+									        	  var nodes = [];
+									        	  rows.forEach(function(value,index){
+									        		  var node = {};
+									        		  node.text = value.areaName;
+									        		  areaIdList.push(value.id);
+									        		  nodes.push(node);
+									        	  });
 									        	  mainnode.nodes = nodes;
 									        	  tree.push(mainnode);
-									        	  $('#priceauth').treeview({
+									        	  $('#areaauth').treeview({
 									        		  data: tree,
 									        		  showBorder:false,
 									        		  showCheckbox:true,
 									        		  onNodeChecked: function(event, node) { //选中节点
 			        			                          var selectNodes = getChildNodeIdArr(node); //获取所有子节点
 			        			                          if (selectNodes) { //子节点不为空，则选中所有子节点
-			        			                              $('#priceauth').treeview('checkNode', [selectNodes, { silent: true }]);
+			        			                              $('#areaauth').treeview('checkNode', [selectNodes, { silent: true }]);
 			        			                          }
-			        			                          var parentNode = $("#priceauth").treeview("getNode", node.parentId);
-			        			                          setParentNodeCheck(node,$('#priceauth'));
+			        			                          var parentNode = $("#areaauth").treeview("getNode", node.parentId);
+			        			                          setParentNodeCheck(node,$('#areaauth'));
 			        			                      },
 			        			                      onNodeUnchecked: function(event, node) { //取消选中节点
 			        			                          var selectNodes = getChildNodeIdArr(node); //获取所有子节点
 			        			                          if (selectNodes) { //子节点不为空，则取消选中所有子节点
-			        			                              $('#priceauth').treeview('uncheckNode', [selectNodes, { silent: true }]);
+			        			                              $('#areaauth').treeview('uncheckNode', [selectNodes, { silent: true }]);
 			        			                          }
 			        			                      }
 									        	});  
@@ -329,13 +390,140 @@
 										      }
 								          },
 								          error : function() {
-								        	  layer.msg("价格权限配置获取失败！", {time : 1500, icon : 5});
+								        	  layer.msg("区域配置获取失败！", {time : 1500, icon : 5});
 								          }
 								      });
 				    			}
 				    		});
 				    	</script>
 				    </div>
+				    
+				    <div class="tab-pane fade" id="repertoryauth">
+				    	<script type="text/javascript">
+				    	    var repertoryIdList = [];
+				    		$(function(){
+				    			getTree();
+				    			function getTree() {
+				    				$.ajax({
+								          type: "post",
+								          url: "<%=basePath%>system/role/repertoryConfig" ,
+								          data :JSON.stringify({
+												uid:1,
+												appId:1,
+												sortOrder:'asc'
+									 	  }),
+									 	  contentType: 'application/json; charset=UTF-8',
+									      dataType:'json',
+								          success: function (result) {
+									          if(result.rcode ==  "000000"){
+									        	  var tree = [];
+									        	  var mainnode = {text:"仓库列表"};
+									        	  var rows = result.rows;
+									        	  var nodes = [];
+									        	  rows.forEach(function(value,index){
+									        		  var node = {};
+									        		  node.text = value.repertoryName;
+									        		  repertoryIdList.push(value.id);
+									        		  nodes.push(node);
+									        	  });
+									        	  mainnode.nodes = nodes;
+									        	  tree.push(mainnode);
+									        	  $('#repertoryauth').treeview({
+									        		  data: tree,
+									        		  showBorder:false,
+									        		  showCheckbox:true,
+									        		  onNodeChecked: function(event, node) { //选中节点
+			        			                          var selectNodes = getChildNodeIdArr(node); //获取所有子节点
+			        			                          if (selectNodes) { //子节点不为空，则选中所有子节点
+			        			                              $('#repertoryauth').treeview('checkNode', [selectNodes, { silent: true }]);
+			        			                          }
+			        			                          var parentNode = $("#repertoryauth").treeview("getNode", node.parentId);
+			        			                          setParentNodeCheck(node,$('#repertoryauth'));
+			        			                      },
+			        			                      onNodeUnchecked: function(event, node) { //取消选中节点
+			        			                          var selectNodes = getChildNodeIdArr(node); //获取所有子节点
+			        			                          if (selectNodes) { //子节点不为空，则取消选中所有子节点
+			        			                              $('#repertoryauth').treeview('uncheckNode', [selectNodes, { silent: true }]);
+			        			                          }
+			        			                      }
+									        	});  
+									          }
+									          else{
+									        	  layer.msg(result.rmsg, {time : 1500, icon : 5});
+										      }
+								          },
+								          error : function() {
+								        	  layer.msg("仓库配置获取失败！", {time : 1500, icon : 5});
+								          }
+								      });
+				    			}
+				    		});
+				    	</script>
+				    </div>
+				    
+				    <div class="tab-pane fade" id="brandauth">
+				    	<script type="text/javascript">
+				    	    var brandIdList = [];
+				    		$(function(){
+				    			getTree();
+				    			function getTree() {
+				    				$.ajax({
+								          type: "post",
+								          url: "<%=basePath%>system/role/brandConfig" ,
+								          data :JSON.stringify({
+												uid:1,
+												appId:1,
+												sortOrder:'asc'
+									 	  }),
+									 	  contentType: 'application/json; charset=UTF-8',
+									      dataType:'json',
+								          success: function (result) {
+									          if(result.rcode ==  "000000"){
+									        	  var tree = [];
+									        	  var mainnode = {text:"品牌列表"};
+									        	  var rows = result.rows;
+									        	  var nodes = [];
+									        	  rows.forEach(function(value,index){
+									        		  var node = {};
+									        		  node.text = value.brandName;
+									        		  brandIdList.push(value.id);
+									        		  nodes.push(node);
+									        	  });
+									        	  mainnode.nodes = nodes;
+									        	  tree.push(mainnode);
+									        	  $('#brandauth').treeview({
+									        		  data: tree,
+									        		  showBorder:false,
+									        		  showCheckbox:true,
+									        		  onNodeChecked: function(event, node) { //选中节点
+			        			                          var selectNodes = getChildNodeIdArr(node); //获取所有子节点
+			        			                          if (selectNodes) { //子节点不为空，则选中所有子节点
+			        			                              $('#brandauth').treeview('checkNode', [selectNodes, { silent: true }]);
+			        			                          }
+			        			                          var parentNode = $("#brandauth").treeview("getNode", node.parentId);
+			        			                          setParentNodeCheck(node,$('#brandauth'));
+			        			                      },
+			        			                      onNodeUnchecked: function(event, node) { //取消选中节点
+			        			                          var selectNodes = getChildNodeIdArr(node); //获取所有子节点
+			        			                          if (selectNodes) { //子节点不为空，则取消选中所有子节点
+			        			                              $('#brandauth').treeview('uncheckNode', [selectNodes, { silent: true }]);
+			        			                          }
+			        			                      }
+									        	});  
+									          }
+									          else{
+									        	  layer.msg(result.rmsg, {time : 1500, icon : 5});
+										      }
+								          },
+								          error : function() {
+								        	  layer.msg("商品配置获取失败！", {time : 1500, icon : 5});
+								          }
+								      });
+				    			}
+				    		});
+				    	</script>
+				    </div>
+				    
 				</div>
 				</form>
             </div>
@@ -343,12 +531,20 @@
                 <button type="button" class="btn btn-default" 
                         data-dismiss="modal">关闭
                 </button>
+                <button type="button" class="btn btn-primary" id="modifiedbtu">
+                	提交更改
+                	<script type="text/javascript">
+                		$(function(){
+                			$("#modifiedbtu").hide();
+                		});
+                	</script>
+                </button>
                 <button type="button" class="btn btn-primary" id="subtu">
-                    		提交更改
+                    		新增
                     		<script type="text/javascript">
                     			$(function(){
                     				$("#subtu").click(function(){
-                    					//查选择的询岗位权限
+                    					//查选择的岗位权限
                     					var auth = "";
                     					var autharray = $('#auth').treeview('getChecked');
                     					autharray.forEach(function(value,i){
