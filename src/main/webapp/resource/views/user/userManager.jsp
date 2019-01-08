@@ -114,6 +114,7 @@
 						user.id = value;
 						user.accountName = row.accountName;
 						user.userName = row.userName;
+						user.password = row.password;
 						user.userPhone = row.userPhone;
 						user.status = row.status;
 						user.areaStatus = row.areaStatus;
@@ -190,14 +191,21 @@
 				}
 				//编辑用户信息
 				function editUser(user){
+					$("#areaStatus").prop("checked",false);
+					$("#repertoryStatus").prop("checked",false);
+					$("#brandStatus").prop("checked",false);
 					$('#auth').treeview('uncheckAll');
 					$('#areaauth').treeview('uncheckAll');
 					$('#repertoryauth').treeview('uncheckAll');
 					$('#brandauth').treeview('uncheckAll');
+					$("#repertoryauthtab").show();
+					$("#areaauthtab").show();
+					$("#brandauthtab").show();
 					$("#account").val(user.accountName);
 					$("#username").val(user.userName);
-					$("#password").val("");
+					$("#password").val(user.password);
 					$("#userphone").val(user.userPhone);
+					$("#uid").val(user.id);
 					if(user.status){
 						$("#status").val("1");
 					}else{
@@ -205,9 +213,9 @@
 					}
 					if(user.areaStatus){
 						$("#areaStatus").prop("checked","checked");
-
 						$("#areaauthtab").hide();
 					}
+					
 					if(user.repertoryStatus){
 						$("#repertoryStatus").prop("checked","checked");
 						$("#repertoryauthtab").hide();
@@ -239,7 +247,7 @@
 				        		  var brands = result.brands;
 				        		  roles.forEach(function(role,index){
 				        			  roleIdList.forEach(function(r,index){
-				        				  if(role.id == r){
+				        				  if(role.roleId == r){
 				        					  $('#auth').treeview('checkNode',
 						        					  [ index+1, { silent: true }
 						        			  ]);
@@ -249,7 +257,7 @@
 				        		  
 				        		  areas.forEach(function(area,index){
 				        			  areaIdList.forEach(function(a,index){
-				        				  if(area.id == a){
+				        				  if(area.areaId == a){
 				        					  $('#areaauth').treeview('checkNode',
 						        					  [ index+1, { silent: true }
 						        			  ]);
@@ -259,7 +267,7 @@
 				        		  
 				        		  repertorys.forEach(function(repertory,index){
 				        			  repertoryIdList.forEach(function(r,index){
-				        				  if(repertory.id == r){
+				        				  if(repertory.repertoryId == r){
 				        					  $('#repertoryauth').treeview('checkNode',
 						        					  [ index+1, { silent: true }
 						        			  ]);
@@ -269,7 +277,7 @@
 				        		  
 				        		  brands.forEach(function(brand,index){
 				        			  brandIdList.forEach(function(b,index){
-				        				  if(brand.id == b){
+				        				  if(brand.brandId == b){
 				        					  $('#brandauth').treeview('checkNode',
 						        					  [ index+1, { silent: true }
 						        			  ]);
@@ -326,6 +334,7 @@
 						    <label for="account" class="col-sm-2 control-label">用户名</label>
 						   <div class="col-sm-10">
 						    <input type="text" class="form-control" id="account" placeholder="请输入用户名">
+						    <input type="hidden" class="form-control" id="uid">
 						   </div>
 						  </div>
 						  
@@ -720,6 +729,134 @@
                 	<script type="text/javascript">
                 		$(function(){
                 			$("#modifiedbtu").hide();
+                			
+                			$("#modifiedbtu").click(function(){
+            					//查选择的岗位权限
+            					var auth = "";
+            					var autharray = $('#auth').treeview('getChecked');
+            					autharray.forEach(function(value,i){
+            						if(value.nodeId != 0 ){
+            							auth = auth + roleIdList[value.nodeId-1]+",";
+            						}
+            					});
+            					//查询地区权限
+            					var areaauth = "";
+            					if($("#areaStatus").is(':checked')){
+            						areaIdList.forEach(function(value,i){
+            							areaauth = areaauth + areaIdList[i]+",";
+            						});
+            					}else{
+                					var areaautharray = $('#areaauth').treeview('getChecked');
+                					areaautharray.forEach(function(value,i){
+                						if(value.nodeId != 0 ){
+                							areaauth = areaauth + areaIdList[value.nodeId-1]+",";
+                						}
+                					});
+            					}
+            					
+            					//查询仓库权限
+            					var repertoryauth = "";
+            					if($("#repertoryStatus").is(':checked')){
+            						repertoryIdList.forEach(function(value,i){
+            							repertoryauth = repertoryauth + repertoryIdList[i]+",";
+            						});
+            					}else{
+                					var repertoryautharray = $('#repertoryauth').treeview('getChecked');
+                					repertoryautharray.forEach(function(value,i){
+                						if(value.nodeId != 0 ){
+                							repertoryauth = repertoryauth + repertoryIdList[value.nodeId-1]+",";
+                						}
+                					});
+            					}
+            					
+            					//查询仓库权限
+            					var brandauth = "";
+            					if($("#brandStatus").is(':checked')){
+            						brandIdList.forEach(function(value,i){
+            							brandauth = brandauth + brandIdList[i]+",";
+            						});
+            					}else{
+                					var brandautharray = $('#brandauth').treeview('getChecked');
+                					brandautharray.forEach(function(value,i){
+                						if(value.nodeId != 0 ){
+                							brandauth = brandauth + brandIdList[value.nodeId-1]+",";
+                						}
+                					});
+            					}
+            					
+            					var repertoryStatus = false;
+            					if($("#repertoryStatus").is(':checked')){
+            						repertoryStatus = true;
+					    		}
+            					
+            					var areaStatus = false;
+            					if($("#areaStatus").is(':checked')){
+            						areaStatus = true;
+					    		}
+            					
+            					var brandStatus = false;
+            					if($("#brandStatus").is(':checked')){
+            						brandStatus = true;
+					    		}
+            					
+            					if($("#account").val() == ""){
+            						layer.msg("请输用户名", {time : 1500, icon : 5});
+            					}else if($("#password").val() == ""){
+            						layer.msg("请输入密码", {time : 1500, icon : 5});
+            					}else if($("#username").val() == ""){
+            						layer.msg("请输入用户姓名", {time : 1500, icon : 5});
+            					}else if($("#userphone").val() == ""){
+            						layer.msg("请输入用户联系电话", {time : 1500, icon : 5});
+            					}else if(auth == ""){
+            						layer.msg("请选择用户岗位权限", {time : 1500, icon : 5});
+            					}else if(areaauth == ""){
+            						layer.msg("请选择用户地区权限", {time : 1500, icon : 5});
+            					}else if(repertoryauth == ""){
+            						layer.msg("请选择用户仓库权限", {time : 1500, icon : 5});
+            					}else if(brandauth == ""){
+            						layer.msg("请选择用户品牌权限", {time : 1500, icon : 5});
+            					}else{
+            						var status = true;
+            						if($("#status").val()==0){
+            							var status = false;
+            						}
+            						$.ajax({
+								          type: "post",
+								          url: "<%=basePath%>system/user/updateUser" ,
+								          data :JSON.stringify({
+												uid:1,
+												appId:1,
+												account:$("#account").val(),
+												password:$("#password").val(),
+												userName:$("#username").val(),
+												userPhone:$("#userphone").val(),
+												userId:$("#uid").val(),
+												status:status,
+												auth:auth,
+												areaStatus:areaStatus,
+												areaAuth:areaauth,
+												repertoryStatus:repertoryStatus,
+												repertoryAuth:repertoryauth,
+												brandStatus:brandStatus,
+												brandAuth:brandauth
+									 	  }),
+									 	  contentType: 'application/json; charset=UTF-8',
+									      dataType:'json',
+								          success: function (result) {
+								        	if(result.rcode ==  "000000"){
+								        		layer.msg("操作成功", {time : 1500, icon : 1});
+								        		$("#closebtu").click();
+								        		$("#table").bootstrapTable('refresh');
+								        	}else{
+								        		layer.msg(result.rmsg, {time : 1500, icon : 5});
+								        	}
+								          },
+								          error:function(){
+								        	layer.msg("网络异常！", {time : 1500, icon : 5});
+								          }
+								       });
+            					}
+            				});
                 		});
                 	</script>
                 </button>
