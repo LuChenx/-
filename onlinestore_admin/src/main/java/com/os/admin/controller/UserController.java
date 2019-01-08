@@ -88,6 +88,26 @@ public class UserController
 		return result;
 	}
 
+	@ RequestMapping ("/updateUser")
+	@ ResponseBody
+	public JSONObject updateUser(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/user/updateUser",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
 	@ RequestMapping ("/authList")
 	@ ResponseBody
 	public JSONObject authList(@ RequestBody JSONObject jsonObject)
