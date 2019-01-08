@@ -23,7 +23,14 @@
 		    <input type="text" class="form-control" id="searchinfo" placeholder="用户名、姓名、手机号">
 		  </div>
 		  <a href="#">
-		  	<span class="glyphicon glyphicon-search"></span>
+		  	<span class="glyphicon glyphicon-search" id="searchbtu"></span>
+		  	<script type="text/javascript">
+		  		$(function(){
+		  			$("#searchbtu").click(function(){
+						$("#table").bootstrapTable('refresh');
+					});
+		  		});
+		  	</script>
 		  </a>
 	</form>
 	<table id="table"></table>
@@ -41,10 +48,80 @@
 					//设置表格列格式
 					var m = new Map(); 
 					//value:该列值，row：当前行，index:行号
+					
 					var formatter = function(value, row, index){
-						return '<a class="btn btn-info" onclick="editRole('+value+')"><i class="glyphicon glyphicon-pencil"></i></a><a style="margin-left:10px;" class="btn btn-danger" onclick="deleteRole('+value+')"><i class="glyphicon glyphicon-trash"></i></a>';
+						return value;
 					};
-					m.set('操作', formatter); 
+					m.set('用户名', formatter);
+					
+					var formatter1 = function(value, row, index){
+						if(value){
+							return '<a href="#"><span class="glyphicon glyphicon-check"></span></a>';
+						}else {
+							return '-';
+						}
+					};
+					m.set('状态', formatter1);
+					
+					var formatter2 = function(value, row, index){
+						if(value){
+							return '<a href="#"><span class="glyphicon glyphicon-check"></span></a>';
+						}else {
+							return '-';
+						}
+					};
+					m.set('不限地区', formatter2);
+					
+					var formatter3 = function(value, row, index){
+						if(value){
+							return '<a href="#"><span class="glyphicon glyphicon-check"></span></a>';
+						}else {
+							return '-';
+						}
+					};
+					m.set('不限仓库', formatter3);
+					
+					var formatter4 = function(value, row, index){
+						if(value){
+							return '<a href="#"><span class="glyphicon glyphicon-check"></span></a>';
+						}else {
+							return '-';
+						}
+					};
+					m.set('不限品牌', formatter4);
+					
+					var formatter5 = function(value, row, index){
+						if(value){
+							return '<a href="#"><span class="glyphicon glyphicon-check"></span></a>';
+						}else {
+							return '-';
+						}
+					};
+					m.set('不限价格', formatter5);
+					
+					var formatter6 = function(value, row, index){
+						return crtTimeFtt(value);
+					};
+					m.set('添加时间', formatter6);
+					
+					var formatter7 = function(value, row, index){
+						return crtTimeFtt(value);
+					};
+					m.set('最后登录时间', formatter7);
+					
+					var formatter8 = function(value, row, index){
+						var user = {};
+						user.id = value;
+						user.accountName = row.accountName;
+						user.userName = row.userName;
+						user.userPhone = row.userPhone;
+						user.status = row.status;
+						user.areaStatus = row.areaStatus;
+						user.repertoryStatus = row.repertoryStatus;
+						user.brandStatus = row.brandStatus;
+						return '<a class="btn btn-info" onclick="editUser('+JSON.stringify(user).replace(/"/g, '&quot;')+')"><i class="glyphicon glyphicon-pencil"></i></a><a style="margin-left:10px;" class="btn btn-danger" onclick="deleteUser('+JSON.stringify(user).replace(/"/g, '&quot;')+')"><i class="glyphicon glyphicon-trash"></i></a>';
+					};
+					m.set('操作', formatter8); 
 					tableBuilder.setFormatter(m);
 					
 					//设置查询从参数，默认只有分页参数
@@ -69,10 +146,9 @@
 						$("#username").val("");
 						$("#password").val("");
 						$("#userphone").val("");
-						$("#areaStatus").removeAttr("checked");
-						$("#repertoryStatus").removeAttr("checked");
-						$("#brandStatus").removeAttr("checked");
-						$("#priceStatus").removeAttr("checked");
+						$("#areaStatus").prop("checked",false);
+						$("#repertoryStatus").prop("checked",false);
+						$("#brandStatus").prop("checked",false);
 						$('#auth').treeview('uncheckAll');
 						$('#areaauth').treeview('uncheckAll');
 						$('#repertoryauth').treeview('uncheckAll');
@@ -86,44 +162,120 @@
 					});
 				});
 				
-				//删除岗位信息
-				function deleteRole(roleId){
-					$.ajax({
-				          type: "post",
-				          url: "<%=basePath%>system/role/deleteConfig" ,
-				          data :JSON.stringify({
-								uid:1,
-								appId:1,
-								roleId:roleId
-					 	  }),
-					 	  contentType: 'application/json; charset=UTF-8',
-					      dataType:'json',
-				          success: function (result) {
-				        	  if(result.rcode ==  "000000"){
-				        		  $("#table").bootstrapTable('refresh');
-				        	  }else{
-				        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
-				        	  }
-				          },
-				          error:function(){
-				        	  layer.msg("网络异常", {time : 1500, icon : 5});
-				          }
-				     });
+				//删除用户信息
+				function deleteUser(user){
+					layer.confirm('确定删除?', {icon: 3, title:'提示'}, function(index){
+						$.ajax({
+					          type: "post",
+					          url: "<%=basePath%>system/user/deleteUser" ,
+					          data :JSON.stringify({
+									uid:1,
+									appId:1,
+									deleteUserId:user.id
+						 	  }),
+						 	  contentType: 'application/json; charset=UTF-8',
+						      dataType:'json',
+					          success: function (result) {
+					        	  if(result.rcode ==  "000000"){
+					        		  $("#table").bootstrapTable('refresh');
+					        	  }else{
+					        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
+					        	  }
+					          },
+					          error:function(){
+					        	  layer.msg("网络异常", {time : 1500, icon : 5});
+					          }
+					     });
+					});
 				}
-				//编辑岗位信息
-				function editRole(roleId){
+				//编辑用户信息
+				function editUser(user){
+					$('#auth').treeview('uncheckAll');
+					$('#areaauth').treeview('uncheckAll');
+					$('#repertoryauth').treeview('uncheckAll');
+					$('#brandauth').treeview('uncheckAll');
+					$("#account").val(user.accountName);
+					$("#username").val(user.userName);
+					$("#password").val("");
+					$("#userphone").val(user.userPhone);
+					if(user.status){
+						$("#status").val("1");
+					}else{
+						$("#status").val("0");
+					}
+					if(user.areaStatus){
+						$("#areaStatus").prop("checked","checked");
+
+						$("#areaauthtab").hide();
+					}
+					if(user.repertoryStatus){
+						$("#repertoryStatus").prop("checked","checked");
+						$("#repertoryauthtab").hide();
+					}
+					if(user.brandStatus){
+						$("#brandStatus").prop("checked","checked");
+						$("#brandauthtab").hide();
+					}
+					
+					$("#modifiedbtu").show();
+	        		$("#subtu").hide();
+					$("#modal").click();
+					
 					$.ajax({
 				          type: "post",
-				          url: "<%=basePath%>system/role/configDetail" ,
+				          url: "<%=basePath%>system/user/authList" ,
 				          data :JSON.stringify({
 								uid:1,
 								appId:1,
-								roleId:roleId
+								userId:user.id
 					 	  }),
 					 	  contentType: 'application/json; charset=UTF-8',
 					      dataType:'json',
 				          success: function (result) {
 				        	  if(result.rcode ==  "000000"){
+				        		  var roles = result.roles;
+				        		  var areas = result.areas;
+				        		  var repertorys = result.repertorys;
+				        		  var brands = result.brands;
+				        		  roles.forEach(function(role,index){
+				        			  roleIdList.forEach(function(r,index){
+				        				  if(role.id == r){
+				        					  $('#auth').treeview('checkNode',
+						        					  [ index+1, { silent: true }
+						        			  ]);
+				        				  }
+				        			  });
+				        		  });
+				        		  
+				        		  areas.forEach(function(area,index){
+				        			  areaIdList.forEach(function(a,index){
+				        				  if(area.id == a){
+				        					  $('#areaauth').treeview('checkNode',
+						        					  [ index+1, { silent: true }
+						        			  ]);
+				        				  }
+				        			  });
+				        		  });
+				        		  
+				        		  repertorys.forEach(function(repertory,index){
+				        			  repertoryIdList.forEach(function(r,index){
+				        				  if(repertory.id == r){
+				        					  $('#repertoryauth').treeview('checkNode',
+						        					  [ index+1, { silent: true }
+						        			  ]);
+				        				  }
+				        			  });
+				        		  });
+				        		  
+				        		  brands.forEach(function(brand,index){
+				        			  brandIdList.forEach(function(b,index){
+				        				  if(brand.id == b){
+				        					  $('#brandauth').treeview('checkNode',
+						        					  [ index+1, { silent: true }
+						        			  ]);
+				        				  }
+				        			  });
+				        		  });
 				        		  
 				        	  }else{
 				        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
@@ -197,6 +349,17 @@
 						    <input type="text" class="form-control" id="userphone" placeholder="请输入手机号">
 						    </div>
 						 </div>
+						 
+						 <div class="form-group">
+						    <label for="status" class="col-sm-2 control-label">状&nbsp;&nbsp;&nbsp;&nbsp;态</label>
+						    <div class="col-sm-10">
+							    <select class="form-control" id="status">
+							      <option value="1">启用</option>
+							      <option value="0">禁用</option>
+							    </select>
+						    </div>
+						 </div>
+						 
 						 <div style="margin-left: 30px">
 						   <div class="checkbox">
 							    <label id="arealabel"><input type="checkbox" id="areaStatus">不限制地区权限</label>
@@ -204,9 +367,9 @@
 							    	$("#arealabel").click(function(){
 							    		if($("#areaStatus").is(':checked')){
 							    			$("#areaauthtab").hide();
-							    			$('#areaauth').treeview('uncheckAll');
 							    		}else{
 							    			$("#areaauthtab").show();
+							    			$('#areaauth').treeview('uncheckAll');
 							    		}
 							    	});
 							    </script>
@@ -217,9 +380,9 @@
 							    	$("#repertorylabel").click(function(){
 							    		if($("#repertoryStatus").is(':checked')){
 							    			$("#repertoryauthtab").hide();
-							    			$('#repertoryauth').treeview('uncheckAll');
 							    		}else{
 							    			$("#repertoryauthtab").show();
+							    			$('#repertoryauth').treeview('uncheckAll');
 							    		}
 							    	});
 							    </script>
@@ -230,9 +393,9 @@
 							    	$("#brandlabel").click(function(){
 							    		if($("#brandStatus").is(':checked')){
 							    			$("#brandauthtab").hide();
-							    			$('#brandauth').treeview('uncheckAll');
 							    		}else{
 							    			$("#brandauthtab").show();
+							    			$('#brandauth').treeview('uncheckAll');
 							    		}
 							    	});
 							    </script>
@@ -325,13 +488,13 @@
 				                    for (x in parentNode.nodes) {
 				                        if (parentNode.nodes[x].state.checked) {
 				                            checkedCount ++;
-				                        } else {
-				                            break;
-				                        }
+				                        } 
 				                    }
 				                    if (checkedCount === parentNode.nodes.length) {
 				                    	tree.treeview("checkNode", parentNode.nodeId);
 				                        setParentNodeCheck(parentNode,tree);
+				                    }else{
+				                    	tree.treeview("uncheckNode", parentNode.nodeId);
 				                    }
 				                }
 				            }
@@ -379,6 +542,12 @@
 			        			                          }
 			        			                          var parentNode = $("#areaauth").treeview("getNode", node.parentId);
 			        			                          setParentNodeCheck(node,$('#areaauth'));
+			        			                          
+			        			                          //根节点
+			        			                          var rootNode = $("#areaauth").treeview("getNode", 0);
+			        			                          if(rootNode.state.checked){
+			        			                        	  $("#areaStatus").prop("checked","checked");
+			        			                          }
 			        			                      },
 			        			                      onNodeUnchecked: function(event, node) { //取消选中节点
 			        			                          var selectNodes = getChildNodeIdArr(node); //获取所有子节点
@@ -442,6 +611,12 @@
 			        			                          }
 			        			                          var parentNode = $("#repertoryauth").treeview("getNode", node.parentId);
 			        			                          setParentNodeCheck(node,$('#repertoryauth'));
+			        			                          
+			        			                          //根节点
+			        			                          var rootNode = $("#repertoryauth").treeview("getNode", 0);
+			        			                          if(rootNode.state.checked){
+			        			                        	  $("#repertoryStatus").prop("checked","checked");
+			        			                          }
 			        			                      },
 			        			                      onNodeUnchecked: function(event, node) { //取消选中节点
 			        			                          var selectNodes = getChildNodeIdArr(node); //获取所有子节点
@@ -505,6 +680,12 @@
 			        			                          }
 			        			                          var parentNode = $("#brandauth").treeview("getNode", node.parentId);
 			        			                          setParentNodeCheck(node,$('#brandauth'));
+			        			                          
+			        			                          //根节点
+			        			                          var rootNode = $("#brandauth").treeview("getNode", 0);
+			        			                          if(rootNode.state.checked){
+			        			                        	  $("#brandStatus").prop("checked","checked");
+			        			                          }
 			        			                      },
 			        			                      onNodeUnchecked: function(event, node) { //取消选中节点
 			        			                          var selectNodes = getChildNodeIdArr(node); //获取所有子节点
@@ -532,7 +713,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" 
-                        data-dismiss="modal">关闭
+                        data-dismiss="modal" id="closebtu">关闭
                 </button>
                 <button type="button" class="btn btn-primary" id="modifiedbtu">
                 	提交更改
@@ -600,6 +781,21 @@
 	                    					});
                     					}
                     					
+                    					var repertoryStatus = false;
+                    					if($("#repertoryStatus").is(':checked')){
+                    						repertoryStatus = true;
+							    		}
+                    					
+                    					var areaStatus = false;
+                    					if($("#areaStatus").is(':checked')){
+                    						areaStatus = true;
+							    		}
+                    					
+                    					var brandStatus = false;
+                    					if($("#brandStatus").is(':checked')){
+                    						brandStatus = true;
+							    		}
+                    					
                     					if($("#account").val() == ""){
                     						layer.msg("请输用户名", {time : 1500, icon : 5});
                     					}else if($("#password").val() == ""){
@@ -617,37 +813,46 @@
                     					}else if(brandauth == ""){
                     						layer.msg("请选择用户品牌权限", {time : 1500, icon : 5});
                     					}else{
-                    						
+                    						var status = true;
+                    						if($("#status").val()==0){
+                    							var status = false;
+                    						}
+                    						$.ajax({
+        								          type: "post",
+        								          url: "<%=basePath%>system/user/addUser" ,
+        								          data :JSON.stringify({
+        												uid:1,
+        												appId:1,
+        												account:$("#account").val(),
+        												password:$("#password").val(),
+        												userName:$("#username").val(),
+        												userPhone:$("#userphone").val(),
+        												status:status,
+        												auth:auth,
+        												areaStatus:areaStatus,
+        												areaAuth:areaauth,
+        												repertoryStatus:repertoryStatus,
+        												repertoryAuth:repertoryauth,
+        												brandStatus:brandStatus,
+        												brandAuth:brandauth
+        									 	  }),
+        									 	  contentType: 'application/json; charset=UTF-8',
+        									      dataType:'json',
+        								          success: function (result) {
+        								        	if(result.rcode ==  "000000"){
+        								        		layer.msg("操作成功", {time : 1500, icon : 1});
+        								        		$("#closebtu").click();
+        								        		$("#table").bootstrapTable('refresh');
+        								        	}else{
+        								        		layer.msg(result.rmsg, {time : 1500, icon : 5});
+        								        	}
+        								          },
+        								          error:function(){
+        								        	layer.msg("网络异常！", {time : 1500, icon : 5});
+        								          }
+        								       });
                     					}
                     				});
-                    				
-                    				function saveRole(auth,priceauth){
-                    					$.ajax({
-  								          type: "post",
-  								          url: "<%=basePath%>system/role/addconfig" ,
-  								          data :JSON.stringify({
-  												uid:1,
-  												appId:1,
-  												roleName:$("#rolename").val(),
-  												roleDesc:$("#roledesc").val(),
-  												auth:auth,
-  												priceAuth:priceauth
-  									 	  }),
-  									 	  contentType: 'application/json; charset=UTF-8',
-  									      dataType:'json',
-  								          success: function (result) {
-  								        	if(result.rcode ==  "000000"){
-  								        		layer.msg("操作成功", {time : 1500, icon : 1});
-  								        		$("#table").bootstrapTable('refresh');
-  								        	}else{
-  								        		layer.msg(result.rmsg, {time : 1500, icon : 5});
-  								        	}
-  								          },
-  								          error:function(){
-  								        	layer.msg("网络异常！", {time : 1500, icon : 5});
-  								          }
-  								       });
-                    				}
                     			});
                     		</script>
                 </button>

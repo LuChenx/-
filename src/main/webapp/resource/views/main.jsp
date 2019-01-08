@@ -235,12 +235,6 @@
 			function linkto(page){
 				$("#contentframe").attr('src',"<%=basePath%>resource/views/"+page);
 			}
-			
-			$(document.body).css({
-		    	   "overflow-x":"hidden",
-		    	   "overflow-y":"hidden"
-		    });
-			
 		</script>
 	</div><!--/.fluid-container-->
 	
