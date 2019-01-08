@@ -27,3 +27,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!-- layer[提示对话框] -->
 <script src="<%=basePath%>resource/Layui/layer/layer.js"></script>
+
+<script src="<%=basePath%>resource/js/time.js"></script>

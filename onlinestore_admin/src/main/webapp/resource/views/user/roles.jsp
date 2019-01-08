@@ -228,13 +228,13 @@
 				                    for (x in parentNode.nodes) {
 				                        if (parentNode.nodes[x].state.checked) {
 				                            checkedCount ++;
-				                        } else {
-				                            break;
 				                        }
 				                    }
 				                    if (checkedCount === parentNode.nodes.length) {
 				                    	tree.treeview("checkNode", parentNode.nodeId);
 				                        setParentNodeCheck(parentNode,tree);
+				                    }else{
+				                    	tree.treeview("uncheckNode", parentNode.nodeId);
 				                    }
 				                }
 				            }
