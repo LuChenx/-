@@ -16,6 +16,8 @@
 <!-- //font-awesome icons -->
 <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
+<!-- layer[提示对话框] -->
+<script src="<%=basePath%>resource/Layui/layer/layer.js"></script>
 <title>Admin System</title>
 </head>
 <style>
@@ -29,7 +31,7 @@
 			<div class="row-fluid">
 				<div class="login-box">
 					<h2>Welcome to Admin System</h2>
-					<form class="form-horizontal" action="<%=basePath%>resource/views/main.jsp" method="post" />
+					<form class="form-horizontal"/>
 						<fieldset>
 							
 							<input class="input-large span12" name="username" id="username" type="text" placeholder="账号" />
@@ -42,9 +44,46 @@
 							
 							<div class="clearfix"></div>
 							
-							<button type="submit" class="btn btn-primary span12">登录</button>
+							<button type="button" class="btn btn-primary span12" id="loginbtu">登录</button>
+							
 						</fieldset>	
-
+					<script type="text/javascript">
+						$(function(){
+							$("#loginbtu").click(function(){
+								if($("#username").val()==""){
+									layer.msg("请输入用户名", {time : 1500, icon : 5});
+								}else if($("#password").val()==""){
+									layer.msg("请输入账号密码", {time : 1500, icon : 5});
+								}
+								else{
+									$.ajax({
+								          type: "post",
+								          url: "<%=basePath%>system/user/login" ,
+								          data :JSON.stringify({
+												appId:1,
+												account:$("#username").val(),
+												password:$("#password").val()
+									 	  }),
+									 	  contentType: 'application/json; charset=UTF-8',
+									      dataType:'json',
+								          success: function (result) {
+								        	if(result.rcode ==  "000000"){
+								        		window.location.href = "<%=basePath%>resource/views/main.jsp";
+								        		var storage=window.sessionStorage;
+								        		storage.managerId = result.uid;
+								        		storage.managerName = result.userName;
+								        	}else{
+								        		layer.msg(result.rmsg, {time : 1500, icon : 5});
+								        	}
+								          },
+								          error:function(){
+								        	layer.msg("网络异常！", {time : 1500, icon : 5});
+								          }
+								       });
+								}
+							});
+						});
+					</script>
 					</form>
 					<hr />
 					<h3>访问异常?</h3>

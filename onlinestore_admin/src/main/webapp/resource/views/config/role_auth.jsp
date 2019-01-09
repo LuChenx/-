@@ -15,6 +15,7 @@
 	</div>
 	<table id="table"></table>
 	<script type="text/javascript">
+	    var storage=window.sessionStorage;
 		$(function(){
 			//数据来源
 			var queryUrl = '<%=basePath%>system/role/roleAuthConfig';
@@ -28,7 +29,7 @@
 			//设置查询从参数，默认只有分页参数
 			tableBuilder.setQueryJsonParam(function(params){
 				 var param = {
-							uid:1,
+							uid:storage.managerId,
 							appId:1,
 							sortOrder:params.order,//排序
 					        sortName:params.sort//排序字段
@@ -65,7 +66,7 @@
 			          type: "post",
 			          url: "<%=basePath%>system/role/config" ,
 			          data :JSON.stringify({
-							uid:1,
+							uid:storage.managerId,
 							appId:1,
 							sortOrder:'desc',//排序
 				 	  }),

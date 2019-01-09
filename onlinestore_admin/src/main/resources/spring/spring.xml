@@ -29,4 +29,53 @@
 		<property name="appKey"  value="${APPKEY}"/>
 	</bean>
  
+ 	<!-- 自定义Realm -->
+	<bean id="shiroRealm" class="com.os.admin.shiro.realm.ShiroRealm" />
+	<!--自定义的Roles Filter-->  
+    <bean id="anyRoles" class="com.os.admin.shiro.realm.RolesAuthorizationFilter" />
+    <!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroRealm" />
+	</bean>
+
+	<!-- Shiro过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- Shiro的核心安全接口,这个属性是必须的 -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- 身份认证失败，则跳转到登录页面的配置 --> 
+        <property name="loginUrl" value="/index.jsp"/>
+		<!-- Shiro连接约束配置,即过滤链的定义 -->
+		<property name="filterChainDefinitions">
+			<value>
+			    /index/config_project=roles[Sys_admin]
+			    /index/config_*=anyRoles[Sys_admin,Dep_Header]
+			    /index/record_chiefopinion=anyRoles[Sys_admin,Sta_master]
+			    /index/record_manageropinion=anyRoles[Sys_admin,Dep_Header,Dep_Manager]
+			    /index/record_*=anyRoles[Sys_admin,Sta_master,Sta_worker]
+			    /project/addProject=roles[Sys_admin]
+			    /project/add*Result=anyRoles[Sys_admin,Sta_master,Sta_worker]
+			    /project/addchiefopinion=anyRoles[Sys_admin,Sta_master]
+			    /project/addManageropinion=anyRoles[Sys_admin,Dep_Header,Dep_Manager]
+			    /project/add*=anyRoles[Sys_admin,Dep_Header]
+				/user/**=anon
+				/index/**=authc
+				/base/**=authc
+				/mobile/**=authc
+				/project/**=authc
+			</value>
+		</property>
+	</bean>
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- 开启Shiro注解 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+    
 </beans>

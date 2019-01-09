@@ -18,6 +18,7 @@
 	</div>
 	<table id="table"></table>
 	<script type="text/javascript">
+	var storage=window.sessionStorage;
 	$(function(){
 		//数据来源
 		var queryUrl = '<%=basePath%>system/role/priceConfig';
@@ -48,7 +49,7 @@
 		//设置查询从参数，默认只有分页参数
 		tableBuilder.setQueryJsonParam(function(params){
 			 var param = {
-						uid:1,
+						uid:storage.managerId,
 						appId:1,
 						sortOrder:params.order,//排序
 				        sortName:params.sort//排序字段
@@ -84,7 +85,7 @@
 		          type: "post",
 		          url: "<%=basePath%>system/role/deletePriceConfig" ,
 		          data :JSON.stringify({
-						uid:1,
+						uid:storage.managerId,
 						appId:1,
 						priceId:priceId
 			 	  }),
@@ -159,7 +160,7 @@ $(function(){
 						          type: "post",
 						          url: "<%=basePath%>system/role/updatePriceConfig" ,
 						          data :JSON.stringify({
-										uid:1,
+										uid:storage.managerId,
 										appId:1,
 										priceId:$("#priceId").val(),
 										priceIndex:$("#priceIndex").val(),
@@ -195,7 +196,7 @@ $(function(){
 							          type: "post",
 							          url: "<%=basePath%>system/role/addPriceConfig" ,
 							          data :JSON.stringify({
-											uid:1,
+											uid:storage.managerId,
 											appId:1,
 											priceIndex:$("#priceIndex").val(),
 											priceName:$("#priceName").val(),
