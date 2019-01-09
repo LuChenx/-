@@ -18,6 +18,7 @@
 	</div>
 	<table id="table"></table>
 	<script type="text/javascript">
+	var storage=window.sessionStorage;
 	$(function(){
 		//数据来源
 		var queryUrl = '<%=basePath%>system/role/areaConfig';
@@ -47,7 +48,7 @@
 		//设置查询从参数，默认只有分页参数
 		tableBuilder.setQueryJsonParam(function(params){
 			 var param = {
-						uid:1,
+						uid:storage.managerId,
 						appId:1,
 						sortOrder:params.order,//排序
 				        sortName:params.sort//排序字段
@@ -82,7 +83,7 @@
 		          type: "post",
 		          url: "<%=basePath%>system/role/deleteAreaConfig" ,
 		          data :JSON.stringify({
-						uid:1,
+						uid:storage.managerId,
 						appId:1,
 						areaId:areaId
 			 	  }),
@@ -154,7 +155,7 @@ $(function(){
 						          type: "post",
 						          url: "<%=basePath%>system/role/updateAreaConfig" ,
 						          data :JSON.stringify({
-										uid:1,
+										uid:storage.managerId,
 										appId:1,
 										areaId:$("#areaId").val(),
 										areaIndex:$("#areaIndex").val(),
@@ -189,7 +190,7 @@ $(function(){
 							          type: "post",
 							          url: "<%=basePath%>system/role/addAreaConfig" ,
 							          data :JSON.stringify({
-											uid:1,
+											uid:storage.managerId,
 											appId:1,
 											areaIndex:$("#areaIndex").val(),
 											areaName:$("#areaName").val()

@@ -19,6 +19,7 @@
 	</div>
 	<table id="table"></table>
 	<script type="text/javascript">
+	var storage=window.sessionStorage;
 				$(function(){
 					$("#modal").hide();
 					//数据来源
@@ -41,7 +42,7 @@
 					//设置查询从参数，默认只有分页参数
 					tableBuilder.setQueryJsonParam(function(params){
 						 var param = {
-									uid:1,
+									uid:storage.managerId,
 									appId:1
 						 }
 						 return JSON.stringify(param);
@@ -69,7 +70,7 @@
 				          type: "post",
 				          url: "<%=basePath%>system/role/deleteConfig" ,
 				          data :JSON.stringify({
-								uid:1,
+								uid:storage.managerId,
 								appId:1,
 								roleId:roleId
 					 	  }),
@@ -93,7 +94,7 @@
 				          type: "post",
 				          url: "<%=basePath%>system/role/configDetail" ,
 				          data :JSON.stringify({
-								uid:1,
+								uid:storage.managerId,
 								appId:1,
 								roleId:roleId
 					 	  }),
@@ -160,7 +161,7 @@
 								          type: "post",
 								          url: "<%=basePath%>system/role/authConfig" ,
 								          data :JSON.stringify({
-												uid:1,
+												uid:storage.managerId,
 												appId:1
 									 	  }),
 									 	  contentType: 'application/json; charset=UTF-8',
@@ -250,7 +251,7 @@
 								          type: "post",
 								          url: "<%=basePath%>system/role/priceAuthConfig" ,
 								          data :JSON.stringify({
-												uid:1,
+												uid:storage.managerId,
 												appId:1
 									 	  }),
 									 	  contentType: 'application/json; charset=UTF-8',
@@ -338,7 +339,7 @@
   								          type: "post",
   								          url: "<%=basePath%>system/role/addconfig" ,
   								          data :JSON.stringify({
-  												uid:1,
+  												uid:storage.managerId,
   												appId:1,
   												roleName:$("#rolename").val(),
   												roleDesc:$("#roledesc").val(),

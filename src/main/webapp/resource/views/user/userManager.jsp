@@ -25,6 +25,7 @@
 		  <a href="#">
 		  	<span class="glyphicon glyphicon-search" id="searchbtu"></span>
 		  	<script type="text/javascript">
+		  	var storage=window.sessionStorage;
 		  		$(function(){
 		  			$("#searchbtu").click(function(){
 						$("#table").bootstrapTable('refresh');
@@ -128,7 +129,7 @@
 					//设置查询从参数，默认只有分页参数
 					tableBuilder.setQueryJsonParam(function(params){
 						 var param = {
-									uid:1,
+									uid:storage.managerId,
 									appId:1,
 									searchInfo:$("#searchinfo").val()
 						 }
@@ -170,7 +171,7 @@
 					          type: "post",
 					          url: "<%=basePath%>system/user/deleteUser" ,
 					          data :JSON.stringify({
-									uid:1,
+									uid:storage.managerId,
 									appId:1,
 									deleteUserId:user.id
 						 	  }),
@@ -233,7 +234,7 @@
 				          type: "post",
 				          url: "<%=basePath%>system/user/authList" ,
 				          data :JSON.stringify({
-								uid:1,
+								uid:storage.managerId,
 								appId:1,
 								userId:user.id
 					 	  }),
@@ -421,7 +422,7 @@
 								          type: "post",
 								          url: "<%=basePath%>system/role/config" ,
 								          data :JSON.stringify({
-												uid:1,
+												uid:storage.managerId,
 												appId:1,
 												sortOrder:'asc'
 									 	  }),
@@ -520,7 +521,7 @@
 								          type: "post",
 								          url: "<%=basePath%>system/role/areaConfig" ,
 								          data :JSON.stringify({
-												uid:1,
+												uid:storage.managerId,
 												appId:1,
 												sortOrder:'asc'
 									 	  }),
@@ -589,7 +590,7 @@
 								          type: "post",
 								          url: "<%=basePath%>system/role/repertoryConfig" ,
 								          data :JSON.stringify({
-												uid:1,
+												uid:storage.managerId,
 												appId:1,
 												sortOrder:'asc'
 									 	  }),
@@ -658,7 +659,7 @@
 								          type: "post",
 								          url: "<%=basePath%>system/role/brandConfig" ,
 								          data :JSON.stringify({
-												uid:1,
+												uid:storage.managerId,
 												appId:1,
 												sortOrder:'asc'
 									 	  }),
@@ -824,7 +825,7 @@
 								          type: "post",
 								          url: "<%=basePath%>system/user/updateUser" ,
 								          data :JSON.stringify({
-												uid:1,
+												uid:storage.managerId,
 												appId:1,
 												account:$("#account").val(),
 												password:$("#password").val(),
@@ -958,7 +959,7 @@
         								          type: "post",
         								          url: "<%=basePath%>system/user/addUser" ,
         								          data :JSON.stringify({
-        												uid:1,
+        												uid:storage.managerId,
         												appId:1,
         												account:$("#account").val(),
         												password:$("#password").val(),

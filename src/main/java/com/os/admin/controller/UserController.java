@@ -3,6 +3,11 @@ package com.os.admin.controller;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -124,6 +129,49 @@ public class UserController
 			logger.error("请求失败", e);
 			result.put("rcode", "400000");
 			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping (value = "/login")
+	@ ResponseBody
+	public JSONObject login(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken(jsonObject.getString("account"),
+			jsonObject.getString("password"));
+		try
+		{
+			// 跳转入shiro进行身份验证和授权
+			subject.login(token);
+			// 验证通过后查查询用户信息并将用户信息放入session中
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			JSONObject httpresp = HttpClientUtils
+				.doPost(systemConfig.getHostName() + "system/user/baseinfo", jsonObject);
+			result.put("rcode", "000000");
+			result.put("rmsg", "验证通过");
+			result.put("uid", httpresp.getString("uid"));
+			result.put("userName", httpresp.getString("userName"));
+			return result;
+		}
+		catch (UnknownAccountException e)
+		{
+			logger.error("用户名不存在", e);
+			result.put("rcode", "299999");
+			result.put("rmsg", "用户名不存在");
+		}
+		catch (IncorrectCredentialsException e)
+		{
+			logger.error("密码错误", e);
+			result.put("rcode", "299998");
+			result.put("rmsg", "密码错误");
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "用户名或密码错误");
 		}
 		return result;
 	}

@@ -6,6 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Admin System</title>
+<!-- layer[提示对话框] -->
+<script src="<%=basePath%>resource/Layui/layer/layer.js"></script>
 </head>
 <body>
 	<!-- start: Header -->
@@ -136,8 +138,8 @@
 							<a class="btn account dropdown-toggle" data-toggle="dropdown" href="#">
 								<img src="<%=basePath%>resource/images/github_black_128px_1109058_easyicon.net.ico" style="width: 40px;height: 40px;margin-top: -20px" alt="Avatar"/>
 								<div class="user">
-									<span class="hello">陆晨曦</span>
-									<span class="name">系统管理员</span>
+									<span class="hello" id="userName"></span>
+									<span class="name" id="currentTime"></span>
 								</div>
 							</a>
 							<ul class="dropdown-menu">
@@ -146,7 +148,7 @@
 								</li>
 								<li><a href="#"><i class="icon-user"></i> 账号信息</a></li>
 								<li><a href="#"><i class="icon-cog"></i> 我的权限</a></li>
-								<li><a href="<%=basePath%>index.jsp"><i class="icon-off"></i> 退出</a></li>
+								<li><a href="#" id="loginout"><i class="icon-off"></i> 退出</a></li>
 							</ul>
 						</li>
 						<!-- end: User Dropdown -->
@@ -173,8 +175,8 @@
 							<ul>
 								<li><a class="submenu" href="#" onclick='linkto("config/roles.jsp")'><i class="icon-coffee"></i><span class="hidden-tablet"> 岗位设置</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/role_auth.jsp")'><i class="icon-key"></i><span class="hidden-tablet"> 岗位权限</span></a></li>
-								<li><a class="submenu" href="#"><i class="icon-cog"></i><span class="hidden-tablet"> 系统选项</span></a></li>
-								<li><a class="submenu" href="#"><i class="icon-cogs"></i><span class="hidden-tablet"> 系统配置</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/systemoption.jsp")'><i class="icon-cog"></i><span class="hidden-tablet"> 系统选项</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/systemconfig.jsp")'><i class="icon-cogs"></i><span class="hidden-tablet"> 系统配置</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/areaconfig.jsp")'><i class="icon-sitemap"></i><span class="hidden-tablet"> 地区管理</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/repertoryconfig.jsp")'><i class="icon-home"></i><span class="hidden-tablet"> 仓库名称</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/brandconfig.jsp")'><i class="icon-book"></i><span class="hidden-tablet"> 商品名称</span></a></li>
@@ -238,5 +240,29 @@
 		</script>
 	</div><!--/.fluid-container-->
 	
+	<script type="text/javascript">
+		$(function(){
+			var storage=window.sessionStorage;
+    		var managerName = storage.managerName;
+    		$("#userName").text(managerName);
+			layer.msg('欢迎，'+managerName, {
+				  offset: 'c',
+				  anim: 1
+			}); 
+			
+			$("#loginout").click(function(){
+				storage.removeItem("managerName");
+				window.location.href = "<%=basePath%>index.jsp";
+			});
+			
+			 function mytime(){
+			        var a = new Date();
+			        var b = a.toLocaleTimeString();
+			        var c = a.toLocaleDateString();
+			        $("#currentTime").text(c+" "+b);
+			 }
+			 setInterval(function() {mytime()},1000);
+		});
+	</script>
 </body>
 </html>
