@@ -69,4 +69,24 @@ public class ConfigController
 		}
 		return result;
 	}
+
+	@ RequestMapping ("/addSystemOption")
+	@ ResponseBody
+	public JSONObject addSystemOption(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/config/addSystemOption",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
 }
