@@ -36,6 +36,8 @@
             cardView: false,                    //是否显示详细视图  
             detailView: false,                  //是否显示父子表  
             toolbar: '#toolbar',                   //工具按钮用哪个容器  
+            fixedColumns: true,
+            fixedNumber:2,
             rowStyle:rowStyle,
 			queryParamsType: 'limit', // undefined (这里是根据不同的参数，选择不同的查询的条件)		    
 			responseHandler: function (res) {//这里我查看源码的，在ajax请求成功后，发放数据之前可以对返回的数据进行处理，返回什么部分的数据，比如我的就需要进行整改的！
@@ -160,8 +162,9 @@
             	}
             }
            // obj.searchable=true;
-            arr.push(obj);  
+            arr.push(obj);
         }  
+        arr[0].width = 20;
         return arr;  
     }  
     //可发送给服务端的参数：limit->pageSize,offset->pageNumber,search->searchText,sort->sortName(字段),order->sortOrder('asc'或'desc')  

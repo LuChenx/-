@@ -23,9 +23,9 @@
 		//数据来源
 		var queryUrl = '<%=basePath%>system/role/priceConfig';
 		//表头接收字段
-		var filed = ['showIndex','priceName','priceDesc','id'];
+		var filed = ['','showIndex','priceName','priceDesc','id'];
 		//表头
-		var titles = ['序号','价格名称','说明','操作'];
+		var titles = ['','序号','价格名称','说明','操作'];
 		var tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
 		
 		//设置表格列格式

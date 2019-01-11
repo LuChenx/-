@@ -512,4 +512,24 @@ public class BaseController
 		}
 		return result;
 	}
+
+	@ RequestMapping ("/updateRoleAuth")
+	@ ResponseBody
+	public JSONObject updateRoleAuth(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/role/updateRoleAuth",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
 }
