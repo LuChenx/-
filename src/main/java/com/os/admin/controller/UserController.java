@@ -133,6 +133,46 @@ public class UserController
 		return result;
 	}
 
+	@ RequestMapping ("/baseInfo")
+	@ ResponseBody
+	public JSONObject baseInfo(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/user/userBaseInfo",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
+	@ RequestMapping ("/updateUserBaseInfo")
+	@ ResponseBody
+	public JSONObject updateUserBaseInfo(@ RequestBody JSONObject jsonObject)
+	{
+		JSONObject result = new JSONObject();
+		try
+		{
+			jsonObject.put("appKey", systemConfig.getAppKey());
+			result = HttpClientUtils.doPost(systemConfig.getHostName() + "system/user/updateUserBaseInfo",
+				jsonObject);
+		}
+		catch (Exception e)
+		{
+			logger.error("请求失败", e);
+			result.put("rcode", "400000");
+			result.put("rmsg", "网络异常");
+		}
+		return result;
+	}
+
 	@ RequestMapping (value = "/login")
 	@ ResponseBody
 	public JSONObject login(@ RequestBody JSONObject jsonObject)

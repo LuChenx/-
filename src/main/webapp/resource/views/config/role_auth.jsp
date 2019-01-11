@@ -22,7 +22,7 @@
 			//表头接收字段
 			var filed = ['','authName','authDesc'];
 			//表头
-			var titles = ['序号','权限名称','权限说明'];
+			var titles = ['','权限名称','权限说明'];
 			// 获取表头
 			queryRoleConfig();
 			var tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
@@ -41,11 +41,18 @@
 			var m = new Map(); 
 			titles.forEach(function(element, index){
 				if(index>2){
+					var titleIndex = index;
 					//value:该列值，row：当前行，index:行号
 					var formatter = function(value, row, index){
+						var ar = {};
+						ar.roleId = filed[titleIndex];
+						ar.authId = row.authId;
 						if(value){
-							return '<a href="#"><span class="glyphicon glyphicon-check"></span></a>';	
+							ar.ischeck = false;
+							return '<a href="#"><span class="glyphicon glyphicon-check" onclick="editAuth('+JSON.stringify(ar).replace(/"/g, '&quot;')+')"></span></a>';	
 						}
+						ar.ischeck = true;
+						return '<a href="#"><span class="glyphicon glyphicon-unchecked" onclick="editAuth('+JSON.stringify(ar).replace(/"/g, '&quot;')+')"></span></a>';	
 					};
 					m.set(element, formatter); 
 				}
@@ -94,6 +101,31 @@
 				$("#table").bootstrapTable('refresh');
 			});
 		});
+		function editAuth(config){
+			$.ajax({
+		          type: "post",
+		          url: "<%=basePath%>system/role/updateRoleAuth" ,
+		          data :JSON.stringify({
+						uid:storage.managerId,
+						appId:1,
+						roleId:config.roleId,
+						authId:config.authId,
+						type:config.ischeck
+			 	  }),
+			 	  contentType: 'application/json; charset=UTF-8',
+			      dataType:'json',
+		          success: function (result) {
+		        	  if(result.rcode ==  "000000"){
+		        		  $("#table").bootstrapTable('refresh');
+		        	  }else{
+		        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
+		        	  }
+		          },
+		          error:function(){
+		        	  layer.msg("网络异常", {time : 1500, icon : 5});
+		          }
+		     });
+		}
 	</script>
 </body>
 </html>

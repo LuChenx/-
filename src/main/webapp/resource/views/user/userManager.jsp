@@ -41,9 +41,9 @@
 					//数据来源
 					var queryUrl = '<%=basePath%>system/user/list';
 					//表头接收字段
-					var filed = ['accountName','userName','userPhone','status','areaStatus','repertoryStatus','brandStatus','priceStatus','createTime','createTime','id'];
+					var filed = ['','accountName','userName','userPhone','status','areaStatus','repertoryStatus','brandStatus','priceStatus','createTime','createTime','id'];
 					//表头
-					var titles = ['用户名','姓名','手机号','状态','不限地区','不限仓库','不限品牌','不限价格','添加时间','最后登录时间','操作'];
+					var titles = ['','用户名','姓名','手机号','状态','不限地区','不限仓库','不限品牌','不限价格','添加时间','最后登录时间','操作'];
 					var tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
 					
 					//设置表格列格式

@@ -6,6 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Admin System</title>
+<style type="text/css">
+</style>
 <!-- layer[提示对话框] -->
 <script src="<%=basePath%>resource/Layui/layer/layer.js"></script>
 </head>
@@ -146,8 +148,7 @@
 								<li class="dropdown-menu-title">
 									
 								</li>
-								<li><a href="#"><i class="icon-user"></i> 账号信息</a></li>
-								<li><a href="#"><i class="icon-cog"></i> 我的权限</a></li>
+								<li><a href="#" onclick='linkto("user/accountInfo.jsp")'><i class="icon-user"></i> 账号信息</a></li>
 								<li><a href="#" id="loginout"><i class="icon-off"></i> 退出</a></li>
 							</ul>
 						</li>
@@ -171,27 +172,27 @@
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						
 						<li>
-							<a class="dropmenu" href="#"><i class="icon-rss"></i><span class="hidden-tablet"> 系统管理</span></a>
+							<a class="dropmenu" href="#"><i class="icon-desktop"></i><span class="hidden-tablet"> 系统管理</span><span class="label">10</span></a>
 							<ul>
 								<li><a class="submenu" href="#" onclick='linkto("config/roles.jsp")'><i class="icon-coffee"></i><span class="hidden-tablet"> 岗位设置</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/role_auth.jsp")'><i class="icon-key"></i><span class="hidden-tablet"> 岗位权限</span></a></li>
-								<li><a class="submenu" href="#" onclick='linkto("config/systemoption.jsp")'><i class="icon-cog"></i><span class="hidden-tablet"> 系统选项</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/systemoption.jsp")'><i class="icon-cloud"></i><span class="hidden-tablet"> 系统选项</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/systemconfig.jsp")'><i class="icon-cogs"></i><span class="hidden-tablet"> 系统配置</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/areaconfig.jsp")'><i class="icon-sitemap"></i><span class="hidden-tablet"> 地区管理</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/repertoryconfig.jsp")'><i class="icon-home"></i><span class="hidden-tablet"> 仓库名称</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("config/brandconfig.jsp")'><i class="icon-book"></i><span class="hidden-tablet"> 商品名称</span></a></li>
-								<li><a class="submenu" href="#" onclick='linkto("config/priceconfig.jsp")'><i class="icon-calendar"></i><span class="hidden-tablet"> 价格体系</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/priceconfig.jsp")'><i class="icon-wrench"></i><span class="hidden-tablet"> 价格体系</span></a></li>
 								<li><a class="submenu" href="#" onclick='linkto("user/userManager.jsp")'><i class="icon-user"></i><span class="hidden-tablet"> 操作员管理</span></a></li>
-								<li><a class="submenu" href="tasks.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 初始化进销存</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("config/init.jsp")'><i class="icon-comments-alt"></i><span class="hidden-tablet"> 初始化进销存</span></a></li>
 							</ul>	
 						</li>
 						
 						<li>
-							<a class="dropmenu" href="#"><i class="icon-folder-open"></i><span class="hidden-tablet"> 基本信息</span></a>
+							<a class="dropmenu" href="#"><i class="icon-dashboard"></i><span class="hidden-tablet"> 基本信息</span><span class="label">6</span></a>
 							<ul>
-								<li><a class="submenu" href="#"><i class="icon-ambulance"></i><span class="hidden-tablet"> 供货单位管理</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("manager/supplier.jsp")'><i class="icon-ambulance"></i><span class="hidden-tablet"> 供货单位管理</span></a></li>
 								<li><a class="submenu" href="messages.html"><i class="icon-group"></i><span class="hidden-tablet"> 客户资料管理</span></a></li>
-								<li><a class="submenu" href="tasks.html"><i class="icon-star"></i><span class="hidden-tablet"> 客户品牌授权</span></a></li>
+								<li><a class="submenu" href="tasks.html"><i class="icon-share-alt"></i><span class="hidden-tablet"> 客户品牌授权</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-tags"></i><span class="hidden-tablet"> 商品信息管理</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-wrench"></i><span class="hidden-tablet"> 价格表管理</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-eye-open"></i><span class="hidden-tablet"> 浏览价格表</span></a></li>
@@ -206,21 +207,21 @@
 						</li>
 						
 						<li>
-							<a class="dropmenu" href="#"><i class="icon-reorder"></i><span class="hidden-tablet"> 库存管理</span></a>
+							<a class="dropmenu" href="#"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 库存管理</span></a>
 							<ul>
 								
 							</ul>	
 						</li>
 						
 						<li>
-							<a class="dropmenu" href="#"><i class="icon-bookmark"></i><span class="hidden-tablet"> 销售管理</span></a>
+							<a class="dropmenu" href="#"><i class="icon-calendar"></i><span class="hidden-tablet"> 销售管理</span></a>
 							<ul>
 								
 							</ul>	
 						</li>
 						
 						<li>
-							<a class="dropmenu" href="#"><i class="icon-mobile-phone"></i><span class="hidden-tablet"> APP管理</span></a>
+							<a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> APP管理</span></a>
 							<ul>
 								
 							</ul>	

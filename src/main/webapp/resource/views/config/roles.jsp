@@ -27,7 +27,7 @@
 					//表头接收字段
 					var filed = ['','roleName','roleDesc','id'];
 					//表头
-					var titles = ['序号','岗位名称','岗位描述','操作'];
+					var titles = ['','岗位名称','岗位描述','操作'];
 					var tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
 					
 					//设置表格列格式

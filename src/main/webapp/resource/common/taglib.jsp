@@ -22,6 +22,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- table -->
 <link rel="stylesheet" href="<%=basePath%>resource/Bootstrap/table/src/bootstrap-table.css">  
 <script src="<%=basePath%>resource/Bootstrap/table/src/bootstrap-table.js"></script>  
+<link rel="stylesheet" href="<%=basePath%>resource/Bootstrap/table/src/bootstrap-table-fixed-columns.css">  
+<script src="<%=basePath%>resource/Bootstrap/table/src/bootstrap-table-fixed-columns.js"></script>  
 <script src="<%=basePath%>resource/Bootstrap/table/src/locale/bootstrap-table-zh-CN.js"></script>
 <script src="<%=basePath%>resource/js/table.js"></script>
 

@@ -23,9 +23,9 @@
 		//数据来源
 		var queryUrl = '<%=basePath%>system/role/areaConfig';
 		//表头接收字段
-		var filed = ['showIndex','areaName','id'];
+		var filed = ['','showIndex','areaName','id'];
 		//表头
-		var titles = ['序号','区域名称','操作'];
+		var titles = ['','序号','区域名称','操作'];
 		var tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
 		
 		//设置表格列格式

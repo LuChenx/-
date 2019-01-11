@@ -67,7 +67,7 @@
 		//表头接收字段
 		var filed = ['','settingTypeName','showIndex','optionName','optionDesc','id'];
 		//表头
-		var titles = ['编号','选项类别','序号','选项名称','说明','操作'];
+		var titles = ['','选项类别','序号','选项名称','说明','操作'];
 		var tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
 		
 		//设置表格列格式
@@ -117,6 +117,44 @@
 			$("#modal").click();
 		});
 	});
+	//删除
+	function deleteConfig(optionId){
+		layer.confirm('确定删除?', {icon: 3, title:'提示'}, function(index){
+			$.ajax({
+		          type: "post",
+		          url: "<%=basePath%>system/config/deleteOptionConfig" ,
+		          data :JSON.stringify({
+						uid:storage.managerId,
+						appId:1,
+						optionId:optionId
+			 	  }),
+			 	  contentType: 'application/json; charset=UTF-8',
+			      dataType:'json',
+		          success: function (result) {
+		        	  if(result.rcode ==  "000000"){
+		        		  $("#table").bootstrapTable('refresh');
+		        	  }else{
+		        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
+		        	  }
+		          },
+		          error:function(){
+		        	  layer.msg("网络异常", {time : 1500, icon : 5});
+		          }
+		     });
+			 layer.close(index);
+		});
+	}
+	
+	function editConfig(option){
+		$("#optionId").val(option.id);
+		$("#configType").val(option.optionType);
+		$("#optionName").val(option.optionName);
+		$("#showIndex").val(option.showIndex);
+		$("#optionDesc").val(option.optionDesc);
+		$("#addbtu").hide();
+		$("#modifiedbtu").show();
+		$("#modal").click();
+	}
 	</script>
 	
 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="modal"></button>
@@ -148,6 +186,7 @@
 					    <label for="optionDesc">选项说明</label>
 					    <input type="text" class="form-control" id="optionDesc" placeholder="请输入选项说明">
 					  </div>
+					  <input type="hidden" id="optionId">
             	</form>
             </div>
             <div class="modal-footer">
@@ -157,6 +196,36 @@
                 	$(function(){
                 		$("#modal").hide();
                 		$("#modifiedbtu").hide();
+                		$("#modifiedbtu").click(function(){
+                			$.ajax({
+						          type: "post",
+						          url: "<%=basePath%>system/config/updateOptionConfig" ,
+						          data :JSON.stringify({
+										uid:storage.managerId,
+										appId:1,
+										optionId:$("#optionId").val(),
+							            optionName:$("#optionName").val(),
+										showIndex:$("#showIndex").val(),
+										optionDesc:$("#optionDesc").val(),
+										optionType:$("#configType").val(),
+										optionTypeName:$("#configType option:selected").text()
+							 	  }),
+							 	  contentType: 'application/json; charset=UTF-8',
+							      dataType:'json',
+						          success: function (result) {
+						        	if(result.rcode ==  "000000"){
+						        		layer.msg("操作成功", {time : 1500, icon : 1});
+						        		$("#closebtu").click();
+						        		$("#table").bootstrapTable('refresh');
+						        	}else{
+						        		layer.msg(result.rmsg, {time : 1500, icon : 5});
+						        	}
+						          },
+						          error:function(){
+						        	layer.msg("网络异常！", {time : 1500, icon : 5});
+						          }
+						       });
+                		});
                 	});
                 </script>
 				<button type="button" class="btn btn-primary" id="addbtu">新增</button>
