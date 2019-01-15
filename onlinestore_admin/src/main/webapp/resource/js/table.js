@@ -2,8 +2,7 @@
  * 定制化表格
  */
 (function () {  
-    function init(table,url,params,titles,formatter,cellStyle,hasCheckbox,sef,search,columns,showHeader,btnExportId,devaultSize,pageSize,queryJsonParam,pagination,sidePagination,onlyInfoPagination,sortName) {  
-    	var h = $(document).height();
+    function init(table,url,params,titles,formatter,cellStyle,hasCheckbox,sef,search,columns,showHeader,btnExportId,devaultSize,pageSize,queryJsonParam,pagination,sidePagination,onlyInfoPagination,sortName,fixedColumns,toolbar,height) {  
         $(table).bootstrapTable('destroy').bootstrapTable({  
             url: url,                           //请求后台的URL（*）  
             method: 'POST',                     //请求方式（*）  
@@ -12,7 +11,7 @@
             queryParams: queryJsonParam,           //传递参数（*），这里应该返回一个object，即形如{param1:val1,param2:val2}  
             sidePagination: sidePagination,           //分页方式：client客户端分页，server服务端分页（*）  
             pageNumber:1,                       //初始化加载第一页，默认第一页  
-            height:h,
+            height:height,
             pageSize: devaultSize,                       //每页的记录行数（*）  
             pageList: pageSize,            //可供选择的每页的行数（*）  
             paginationPreText: "上一页",
@@ -35,9 +34,9 @@
             showToggle:false,                    //是否显示详细视图和列表视图的切换按钮  
             cardView: false,                    //是否显示详细视图  
             detailView: false,                  //是否显示父子表  
-            toolbar: '#toolbar',                   //工具按钮用哪个容器  
-            fixedColumns: true,
-            fixedNumber:2,
+            toolbar: toolbar,                   //工具按钮用哪个容器  
+            fixedColumns: fixedColumns,
+            fixedNumber:1,
             rowStyle:rowStyle,
 			queryParamsType: 'limit', // undefined (这里是根据不同的参数，选择不同的查询的条件)		    
 			responseHandler: function (res) {//这里我查看源码的，在ajax请求成功后，发放数据之前可以对返回的数据进行处理，返回什么部分的数据，比如我的就需要进行整改的！
@@ -213,6 +212,8 @@
         	cellStyleArr.push(cellStyleSimple);
     	});
     	
+    	this.height = $(document).height();
+    	this.toolbar = "#toolbar";
     	this.hasCheckbox = false;
     	this.sortName=[];
     	this.sef = false;
@@ -227,6 +228,7 @@
     	this.devaultSize = 10;
     	this.formatter = formatterArr;
     	this.cellStyle = cellStyleArr;
+    	this.fixedColumns = false;
     	
     	this.setFormatter = function(param){
     		param.forEach(function (value, key, map) {
@@ -256,6 +258,20 @@
 			return this;
     	}
     	
+    	this.setToolbar = function(param){
+    		this.toolbar = param;
+    		return this;
+    	}
+    	
+    	this.setHeight = function(param){
+    		this.height = param;
+    		return this;
+    	}
+    	
+    	this.setFixedColumns = function(param){
+    		this.fixedColumns = param;
+    		return this;
+    	}
     	
     	this.setSidePagination = function(param){
     		this.sidePagination = param;
@@ -312,7 +328,7 @@
     		return this;
     	} 
     	this.create = function () {
-    		init(table,url,params,titles,this.formatter,this.cellStyle,this.hasCheckbox,this.sef,this.search,this.columns,this.showHeader,this.btnExportId,this.devaultSize,this.pageSize,this.queryJsonParam,this.pagination,this.sidePagination,this.onlyInfoPagination,this.sortName); 
+    		init(table,url,params,titles,this.formatter,this.cellStyle,this.hasCheckbox,this.sef,this.search,this.columns,this.showHeader,this.btnExportId,this.devaultSize,this.pageSize,this.queryJsonParam,this.pagination,this.sidePagination,this.onlyInfoPagination,this.sortName,this.fixedColumns,this.toolbar,this.height); 
     		//设置表头颜色
 		//	$("#table thead").css("background","linear-gradient(180deg, rgba(166, 221, 242, 1) 0%, rgba(166, 221, 242, 1) 0%, rgba(78, 175, 252, 1) 99%, rgba(78, 175, 252, 1) 100%)");
     	}
