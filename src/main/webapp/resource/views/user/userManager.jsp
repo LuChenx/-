@@ -1,30 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ include file="../../../resource/common/taglib.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>岗位配置</title>
-<script src="<%=basePath%>resource/Bootstrap/js/bootstrap-treeview.js"></script>  
+<script src="<%=basePath%>resource/Bootstrap/js/bootstrap-treeview.js"></script>
 </head>
 <body>
 	<div id="toolbar" class="btn-group">
-      	<button type="button" class="btn btn-primary btn-sm" id="add">
-          <span class="glyphicon glyphicon-plus"></span> 添加
-        </button>
-        <button type="button" class="btn btn-success btn-sm" id="refresh">
-          <span class="	glyphicon glyphicon-cloud-download"></span> 刷新
-        </button>
+		<button type="button" class="btn btn-primary btn-sm" id="add">
+			<span class="glyphicon glyphicon-plus"></span> 添加
+		</button>
+		<button type="button" class="btn btn-success btn-sm" id="refresh">
+			<span class="	glyphicon glyphicon-cloud-download"></span> 刷新
+		</button>
 	</div>
-	<form class="form-inline" role="form" style="float: right;margin-right: 10px;margin-top: 10px">
-		  <div class="form-group">
-		    <label class="sr-only" for="searchinfo">名称</label>
-		    <input type="text" class="form-control" id="searchinfo" placeholder="用户名、姓名、手机号">
-		  </div>
-		  <a href="#">
-		  	<span class="glyphicon glyphicon-search" id="searchbtu"></span>
-		  	<script type="text/javascript">
+	<form class="form-inline" role="form"
+		style="float: right; margin-right: 10px; margin-top: 10px">
+		<div class="form-group">
+			<label class="sr-only" for="searchinfo">名称</label> <input type="text"
+				class="form-control" id="searchinfo" placeholder="用户名、姓名、手机号">
+		</div>
+		<a href="#"> <span class="glyphicon glyphicon-search"
+			id="searchbtu"></span> <script type="text/javascript">
 		  	var storage=window.sessionStorage;
 		  		$(function(){
 		  			$("#searchbtu").click(function(){
@@ -32,7 +32,7 @@
 					});
 		  		});
 		  	</script>
-		  </a>
+		</a>
 	</form>
 	<table id="table"></table>
 	<script type="text/javascript">
@@ -297,83 +297,84 @@
 				}
 		</script>
 
-<!-- 按钮触发模态框 -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="modal">
-</button>		
-		<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" 
-                        aria-hidden="true">×
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                   	 编辑操作员
-                </h4>
-            </div>
-            <div class="modal-body" >
-               <ul id="myTab" class="nav nav-tabs">
-					<li class="active">
-						<a href="#basic" data-toggle="tab">基本信息</a>
-					</li>
-					<li><a href="#auth" data-toggle="tab">岗位权限</a>
-					</li>
-					<li id="areaauthtab" ><a href="#areaauth" data-toggle="tab">地区权限</a>
-					</li>
-					<li id="repertoryauthtab" ><a href="#repertoryauth" data-toggle="tab">仓库权限</a>
-					</li>
-					<li id="brandauthtab" ><a href="#brandauth" data-toggle="tab">品牌权限</a>
-					</li>
-				</ul>
-				<br>
-				<form class="form-horizontal" role="form">
-				<div id="myTabContent" class="tab-content">
-				    <div class="tab-pane fade in active" id="basic">
-				    
-				    	 <div class="form-group">
-						    <label for="account" class="col-sm-2 control-label">用户名</label>
-						   <div class="col-sm-10">
-						    <input type="text" class="form-control" id="account" placeholder="请输入用户名">
-						    <input type="hidden" class="form-control" id="uid">
-						   </div>
-						  </div>
-						  
-						  <div class="form-group">
-						    <label for="password" class="col-sm-2 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-						     <div class="col-sm-10">
-						    <input type="password" class="form-control" id="password" placeholder="请输入密码">
-						  	</div>
-						  </div>
-						  
-						  <div class="form-group">
-						    <label for="username" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;名</label>
-						   <div class="col-sm-10">
-						    <input type="text" class="form-control" id="username" placeholder="请输入姓名">
-						   </div>
-						  </div>
-						  
-						  <div class="form-group">
-						    <label for="userphone" class="col-sm-2 control-label">手机号</label>
-						     <div class="col-sm-10">
-						    <input type="text" class="form-control" id="userphone" placeholder="请输入手机号">
-						    </div>
-						 </div>
-						 
-						 <div class="form-group">
-						    <label for="status" class="col-sm-2 control-label">状&nbsp;&nbsp;&nbsp;&nbsp;态</label>
-						    <div class="col-sm-10">
-							    <select class="form-control" id="status">
-							      <option value="1">启用</option>
-							      <option value="0">禁用</option>
-							    </select>
-						    </div>
-						 </div>
-						 
-						 <div style="margin-left: 30px">
-						   <div class="checkbox">
-							    <label id="arealabel"><input type="checkbox" id="areaStatus">不限制地区权限</label>
-							    <script type="text/javascript">
+	<!-- 按钮触发模态框 -->
+	<button class="btn btn-primary btn-lg" data-toggle="modal"
+		data-target="#myModal" id="modal"></button>
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">编辑操作员</h4>
+				</div>
+				<div class="modal-body">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active"><a href="#basic" data-toggle="tab">基本信息</a>
+						</li>
+						<li><a href="#auth" data-toggle="tab">岗位权限</a></li>
+						<li id="areaauthtab"><a href="#areaauth" data-toggle="tab">地区权限</a>
+						</li>
+						<li id="repertoryauthtab"><a href="#repertoryauth"
+							data-toggle="tab">仓库权限</a></li>
+						<li id="brandauthtab"><a href="#brandauth" data-toggle="tab">品牌权限</a>
+						</li>
+					</ul>
+					<br>
+					<form class="form-horizontal" role="form">
+						<div id="myTabContent" class="tab-content">
+							<div class="tab-pane fade in active" id="basic">
+
+								<div class="form-group">
+									<label for="account" class="col-sm-2 control-label">用户名</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="account"
+											placeholder="请输入用户名"> <input type="hidden"
+											class="form-control" id="uid">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="password" class="col-sm-2 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+									<div class="col-sm-10">
+										<input type="password" class="form-control" id="password"
+											placeholder="请输入密码">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="username" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="username"
+											placeholder="请输入姓名">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="userphone" class="col-sm-2 control-label">手机号</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="userphone"
+											placeholder="请输入手机号">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="status" class="col-sm-2 control-label">状&nbsp;&nbsp;&nbsp;&nbsp;态</label>
+									<div class="col-sm-10">
+										<select class="form-control" id="status">
+											<option value="1">启用</option>
+											<option value="0">禁用</option>
+										</select>
+									</div>
+								</div>
+
+								<div style="margin-left: 30px">
+									<div class="checkbox">
+										<label id="arealabel"><input type="checkbox"
+											id="areaStatus">不限制地区权限</label>
+										<script type="text/javascript">
 							    	$("#arealabel").click(function(){
 							    		if($("#areaStatus").is(':checked')){
 							    			$("#areaauthtab").hide();
@@ -383,10 +384,11 @@
 							    		}
 							    	});
 							    </script>
-							</div>
-							<div class="checkbox">
-							    <label id="repertorylabel"><input type="checkbox" id="repertoryStatus">不限制仓库权限</label>
-							    <script type="text/javascript">
+									</div>
+									<div class="checkbox">
+										<label id="repertorylabel"><input type="checkbox"
+											id="repertoryStatus">不限制仓库权限</label>
+										<script type="text/javascript">
 							    	$("#repertorylabel").click(function(){
 							    		if($("#repertoryStatus").is(':checked')){
 							    			$("#repertoryauthtab").hide();
@@ -396,10 +398,11 @@
 							    		}
 							    	});
 							    </script>
-							</div>
-							<div class="checkbox">
-							    <label id="brandlabel"><input type="checkbox" id="brandStatus">不限制品牌权限</label>
-							    <script type="text/javascript">
+									</div>
+									<div class="checkbox">
+										<label id="brandlabel"><input type="checkbox"
+											id="brandStatus">不限制品牌权限</label>
+										<script type="text/javascript">
 							    	$("#brandlabel").click(function(){
 							    		if($("#brandStatus").is(':checked')){
 							    			$("#brandauthtab").hide();
@@ -409,11 +412,11 @@
 							    		}
 							    	});
 							    </script>
+									</div>
+								</div>
 							</div>
-						</div>	
-				    </div>
-				    <div class="tab-pane fade" id="auth">
-				    	<script type="text/javascript">
+							<div class="tab-pane fade" id="auth">
+								<script type="text/javascript">
 				    	    var roleIdList = [];
 				    		$(function(){
 				    			getTree();
@@ -510,9 +513,9 @@
 				            }
 				            
 				    	</script>
-				    </div>
-				    <div class="tab-pane fade" id="areaauth">
-				    	<script type="text/javascript">
+							</div>
+							<div class="tab-pane fade" id="areaauth">
+								<script type="text/javascript">
 				    	    var areaIdList = [];
 				    		$(function(){
 				    			getTree();
@@ -578,10 +581,10 @@
 				    			}
 				    		});
 				    	</script>
-				    </div>
-				    
-				    <div class="tab-pane fade" id="repertoryauth">
-				    	<script type="text/javascript">
+							</div>
+
+							<div class="tab-pane fade" id="repertoryauth">
+								<script type="text/javascript">
 				    	    var repertoryIdList = [];
 				    		$(function(){
 				    			getTree();
@@ -647,10 +650,10 @@
 				    			}
 				    		});
 				    	</script>
-				    </div>
-				    
-				    <div class="tab-pane fade" id="brandauth">
-				    	<script type="text/javascript">
+							</div>
+
+							<div class="tab-pane fade" id="brandauth">
+								<script type="text/javascript">
 				    	    var brandIdList = [];
 				    		$(function(){
 				    			getTree();
@@ -716,18 +719,17 @@
 				    			}
 				    		});
 				    	</script>
-				    </div>
-				    
+							</div>
+
+						</div>
+					</form>
 				</div>
-				</form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" 
-                        data-dismiss="modal" id="closebtu">关闭
-                </button>
-                <button type="button" class="btn btn-primary" id="modifiedbtu">
-                	提交更改
-                	<script type="text/javascript">
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						id="closebtu">关闭</button>
+					<button type="button" class="btn btn-primary" id="modifiedbtu">
+						提交更改
+						<script type="text/javascript">
                 		$(function(){
                 			$("#modifiedbtu").hide();
                 			
@@ -860,10 +862,10 @@
             				});
                 		});
                 	</script>
-                </button>
-                <button type="button" class="btn btn-primary" id="subtu">
-                    		新增
-                    		<script type="text/javascript">
+					</button>
+					<button type="button" class="btn btn-primary" id="subtu">
+						新增
+						<script type="text/javascript">
                     			$(function(){
                     				$("#subtu").click(function(){
                     					//查选择的岗位权限
@@ -993,10 +995,13 @@
                     				});
                     			});
                     		</script>
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+					</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 </body>
 </html>
