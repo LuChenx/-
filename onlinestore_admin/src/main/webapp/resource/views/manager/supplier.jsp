@@ -78,7 +78,7 @@
 		tableBuilder.create();
 		
 		$("#refresh").click(function(){
-			$("#table").bootstrapTable('refresh');
+			tableBuilder.create();
 		});
 	});
 	
@@ -101,7 +101,7 @@
 		$("#addbtu").hide();
 		$("#updatebtu").show();
 		//创建表格
-		$("#usertable").bootstrapTable('refresh');
+		userTableBuilder.create();
 		$("#modalbtu").click();
 	}
 	</script>
@@ -296,7 +296,7 @@ $(function(){
 										 return JSON.stringify(param);
 									});
 									
-									userTableBuilder.setHeight(330);
+								//	userTableBuilder.setHeight(330);
 									
 									userTableBuilder.setToolbar("#usertoolbar");
 									

@@ -64,7 +64,7 @@
 		tableBuilder.create();
 		
 		$("#refresh").click(function(){
-			$("#table").bootstrapTable('refresh');
+			tableBuilder.create();
 		});
 		
 	});

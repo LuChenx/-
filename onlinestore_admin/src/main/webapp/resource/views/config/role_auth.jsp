@@ -98,7 +98,7 @@
 			}
 			
 			$("#refresh").click(function(){
-				$("#table").bootstrapTable('refresh');
+				tableBuilder.create();
 			});
 		});
 		function editAuth(config){
