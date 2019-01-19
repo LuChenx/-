@@ -25,12 +25,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="<%=basePath%>resource/Bootstrap/table/src/bootstrap-table-fixed-columns.css">  
 <script src="<%=basePath%>resource/Bootstrap/table/src/bootstrap-table-fixed-columns.js"></script>  
 <script src="<%=basePath%>resource/Bootstrap/table/src/locale/bootstrap-table-zh-CN.js"></script>
-<script src="<%=basePath%>resource/js/table.js"></script>
 
-<!-- layer[提示对话框] -->
-<script src="<%=basePath%>resource/Layui/laydate/laydate.js"></script>
 <script src="<%=basePath%>resource/Layui/layer/layer.js"></script>
-<link rel="stylesheet" href="<%=basePath%>resource/Layui/css/layui.css">
-<%-- <script src="<%=basePath%>resource/Layui/layui.js"></script> --%>
 
-<script src="<%=basePath%>resource/js/time.js"></script>

@@ -36,6 +36,7 @@
 	</form>
 	<table id="table"></table>
 	<script type="text/javascript">
+	var tableBuilder;
 				$(function(){
 					$("#modal").hide();
 					//数据来源
@@ -44,7 +45,7 @@
 					var filed = ['','accountName','userName','userPhone','status','areaStatus','repertoryStatus','brandStatus','priceStatus','createTime','createTime','id'];
 					//表头
 					var titles = ['','用户名','姓名','手机号','状态','不限地区','不限仓库','不限品牌','不限价格','添加时间','最后登录时间','操作'];
-					var tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
+					tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
 					
 					//设置表格列格式
 					var m = new Map(); 
@@ -179,7 +180,7 @@
 						      dataType:'json',
 					          success: function (result) {
 					        	  if(result.rcode ==  "000000"){
-					        		  $("#table").bootstrapTable('refresh');
+					        		  tableBuilder.create();
 					        	  }else{
 					        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
 					        	  }

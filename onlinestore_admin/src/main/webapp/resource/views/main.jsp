@@ -191,7 +191,7 @@
 							<a class="dropmenu" href="#"><i class="icon-dashboard"></i><span class="hidden-tablet"> 基本信息</span><span class="label">6</span></a>
 							<ul>
 								<li><a class="submenu" href="#" onclick='linkto("manager/supplier.jsp")'><i class="icon-ambulance"></i><span class="hidden-tablet"> 供货单位管理</span></a></li>
-								<li><a class="submenu" href="messages.html"><i class="icon-group"></i><span class="hidden-tablet"> 客户资料管理</span></a></li>
+								<li><a class="submenu" href="#" onclick='linkto("manager/clients.jsp")'><i class="icon-group"></i><span class="hidden-tablet"> 客户资料管理</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-share-alt"></i><span class="hidden-tablet"> 客户品牌授权</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-tags"></i><span class="hidden-tablet"> 商品信息管理</span></a></li>
 								<li><a class="submenu" href="tasks.html"><i class="icon-wrench"></i><span class="hidden-tablet"> 价格表管理</span></a></li>
@@ -233,7 +233,7 @@
 						
 			<!-- start: Content -->
 	<div id="content" class="span10">
-		<iframe id="contentframe" style="width: 100%;height: 85%;" frameborder="0" ></iframe>
+		<iframe id="contentframe" style="width: 100%;height: 88%;" frameborder="0" ></iframe>
 		<script>
 			function linkto(page){
 				$("#contentframe").attr('src',"<%=basePath%>resource/views/"+page);

@@ -61,6 +61,7 @@
 	<table id="table"></table>
 	<script type="text/javascript">
 	var storage=window.sessionStorage;
+	var tableBuilder;
 	$(function(){
 		//数据来源
 		var queryUrl = '<%=basePath%>system/config/options';
@@ -68,7 +69,7 @@
 		var filed = ['','settingTypeName','showIndex','optionName','optionDesc','id'];
 		//表头
 		var titles = ['','选项类别','序号','选项名称','说明','操作'];
-		var tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
+		tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
 		
 		//设置表格列格式
 		var m = new Map(); 
@@ -132,7 +133,7 @@
 			      dataType:'json',
 		          success: function (result) {
 		        	  if(result.rcode ==  "000000"){
-		        		  $("#table").bootstrapTable('refresh');
+		        		  tableBuilder.create();
 		        	  }else{
 		        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
 		        	  }

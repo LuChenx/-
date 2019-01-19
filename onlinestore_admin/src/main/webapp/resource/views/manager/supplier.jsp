@@ -6,27 +6,58 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>供货单位</title>
-<script src="<%=basePath%>resource/Layui/laydate/laydate.js"></script>
+<script src="<%=basePath%>resource/Bootstrap/table/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="<%=basePath%>resource/js/tableExport.min.js"></script>
 </head>
 <body>
 	<div id="toolbar" class="btn-group">
 		<button type="button" class="btn btn-primary btn-sm" id="add">
 			<span class="glyphicon glyphicon-plus"></span> 添加
 		</button>
-		<button type="button" class="btn btn-info btn-sm" id="outexport">
-			<span class="glyphicon glyphicon-export"></span> 导出
-		</button>
-		<button type="button" class="btn btn-warning btn-sm" id="inexport">
-			<span class="glyphicon glyphicon-import"></span> 导入
-		</button>
 		<button type="button" class="btn btn-success btn-sm" id="refresh">
 			<span class="glyphicon glyphicon-cloud-download"></span> 刷新
 		</button>
+		<button type="button" class="btn btn-info btn-sm" id="outexport" onClick ="$('#table').tableExport({ type: 'excel', escape: 'false' })">
+			<span class="glyphicon glyphicon-export"></span> 导出
+		</button>
+		<button type="button" class="btn btn-warning btn-sm" id="upload">
+			<span class="glyphicon glyphicon-import"></span> 导入
+		</button>
+		<script type="text/javascript">
+		layer.tips('支持后缀为  xls 的Excel，若用此页面导出的xls文件做模板导入，请将文件另存一次。', '#upload', {
+			  tips: [1, '#3595CC'],
+			  time: 10000
+		});
+		</script>
+		<script src="<%=basePath%>resource/Layui/layui.all.js"></script>
+		<script type="text/javascript">
+		    var loading;
+			layui.use('upload', function(){
+				  var upload = layui.upload;
+				//指定允许上传的文件类型
+				  upload.render({
+				    elem: '#upload',
+				    url: '<%=basePath%>system/manager/uploadSupplier',
+				    accept: 'file', //普通文件
+				    acceptMime: 'application/vnd.ms-excel',
+				    done: function(res){
+				    	layer.close(loading); 
+				    },
+				    before: function(object){
+				    	loading = layer.load(3, {
+				    	  shade: [0.1,'#fff'], //0.1透明度的白色背景
+				    	  time: 10*1000
+				    	});
+				    }
+				 });
+			});
+		</script>
 	</div>
 	<table id="table" class="table-responsive"
 		style="word-break: keep-all; word-wrap: keep-all;"></table>
 	<script type="text/javascript">
 	var storage=window.sessionStorage;
+	var tableBuilder;
 	$(function(){
 		//数据来源
 		var queryUrl = '<%=basePath%>system/manager/supplierList';
@@ -34,7 +65,7 @@
 		var filed = ['','companyName','companyAddress','zipCode','companyPhone','companyFax','dutyParagraph','openingBank','companyAccount','companyWebsite','companyEmail','isRebate','companyDesc','managerId','modifiedTime','id'];
 		//表头
 		var titles = ['','单位名称','地址','邮编','电话','传真','税号','开户行','账号','网址','邮件','是否返利','备注','操作员','最近更新时间','操作'];
-		var tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
+		tableBuilder = new createBootstrapTable('#table',queryUrl,filed,titles);
 		
 		//设置表格列格式
 		var m = new Map(); 
@@ -57,7 +88,6 @@
 		m.set('是否返利', formatter2); 
 		m.set('最近更新时间', formatter3);
 		tableBuilder.setFormatter(m);
-		
 		//设置查询从参数，默认只有分页参数
 		tableBuilder.setQueryJsonParam(function(params){
 			 var param = {
@@ -103,6 +133,32 @@
 		//创建表格
 		userTableBuilder.create();
 		$("#modalbtu").click();
+	}
+	
+	function deleteSupplier(supplierId){
+		layer.confirm('确定删除?', {icon: 3, title:'提示'}, function(index){
+			$.ajax({
+		          type: "post",
+		          url: "<%=basePath%>system/manager/deleteSupplier" ,
+		          data :JSON.stringify({
+						uid:storage.managerId,
+						appId:1,
+						supplierId:supplierId
+			 	  }),
+			 	  contentType: 'application/json; charset=UTF-8',
+			      dataType:'json',
+		          success: function (result) {
+		        	  if(result.rcode ==  "000000"){
+		        		  tableBuilder.create();
+		        	  }else{
+		        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
+		        	  }
+		          },
+		          error:function(){
+		        	  layer.msg("网络异常", {time : 1500, icon : 5});
+		          }
+		     });
+		});
 	}
 	</script>
 	<!-- 按钮触发模态框 -->
@@ -296,7 +352,7 @@ $(function(){
 										 return JSON.stringify(param);
 									});
 									
-								//	userTableBuilder.setHeight(330);
+									userTableBuilder.setHeight(330);
 									
 									userTableBuilder.setToolbar("#usertoolbar");
 									
@@ -305,9 +361,55 @@ $(function(){
 									userTableBuilder.setFixedColumns(true);
 									
 									userTableBuilder.onlyInfoPagination(true);
-									
+									userTableBuilder.bootstrapTable('destroy');
 									userTableBuilder.create();
 								});
+								function deleteUser(userId){
+									layer.confirm('确定删除?', {icon: 3, title:'提示'}, function(index){
+										$.ajax({
+									          type: "post",
+									          url: "<%=basePath%>system/manager/deleteSupplierUser" ,
+									          data :JSON.stringify({
+													uid:storage.managerId,
+													appId:1,
+													deleteUserId:userId
+										 	  }),
+										 	  contentType: 'application/json; charset=UTF-8',
+										      dataType:'json',
+									          success: function (result) {
+									        	  if(result.rcode ==  "000000"){
+									        		  userTableBuilder.create();
+									        	  }else{
+									        		  layer.msg(result.rmsg, {time : 1500, icon : 5});
+									        	  }
+									          },
+									          error:function(){
+									        	  layer.msg("网络异常", {time : 1500, icon : 5});
+									          }
+									     });
+									});
+								}
+								
+								function editUser(user){
+									document.getElementById("userform").reset();
+									$("#firstname").val(user.userName);
+									$("#supplierUserId").val(user.id);
+									$("#usersex").val(user.userSex);
+									$("#birthday").val(crtShortTimeFtt(user.birthday));
+									$("#apartment").val(user.apartment);
+									$("#role").val(user.role);
+									$("#userphone").val(user.phone);
+									$("#userfax").val(user.fax);
+									$("#mobile").val(user.mobilePhone);
+									$("#wechat").val(user.wechat);
+									$("#useremail").val(user.userEmail);
+									$("#hobby").val(user.hobby);
+									$("#exprice").val(user.experience);
+									$("#usernote").val(user.userDesc);
+									$("#userModalAdd").hide();
+		                			$("#userModalUpdate").show();
+		                			$("#userModalBtu").click();
+								}
 							</script>
 						</div>
 					</div>
@@ -338,7 +440,7 @@ $(function(){
 											account:$("#account").val(),
 											website:$("#website").val(),
 											email:$("#email").val(),
-											note:$("#note").text(),
+											note:$("#note").val(),
 											rebate:$("#rebate").is(':checked')
 								 	  }),
 								 	  contentType: 'application/json; charset=UTF-8',
@@ -367,6 +469,48 @@ $(function(){
                 			$("#addbtu").show();
                 			$("#updatebtu").hide();
                 		});
+                		
+                		$("#updatebtu").click(function(){
+                			if($("#companyName").val()==""){
+                				layer.msg("请输入供货商名称！", {time : 1500, icon : 5});
+                			}else{
+                				$.ajax({
+							          type: "post",
+							          url: "<%=basePath%>system/manager/updateSupplier" ,
+							          data :JSON.stringify({
+											uid:storage.managerId,
+											appId:1,
+											companyId:$("#companyId").val(),
+											companyName:$("#companyName").val(),
+											companyAddress:$("#companyAddress").val(),
+											zipCode:$("#zipCode").val(),
+											phone:$("#phone").val(),
+											companyFax:$("#fax").val(),
+											duty:$("#duty").val(),
+											bank:$("#bank").val(),
+											account:$("#account").val(),
+											website:$("#website").val(),
+											email:$("#email").val(),
+											note:$("#note").val(),
+											rebate:$("#rebate").is(':checked')
+								 	  }),
+								 	  contentType: 'application/json; charset=UTF-8',
+								      dataType:'json',
+							          success: function (result) {
+							        	if(result.rcode ==  "000000"){
+							        		layer.msg("操作成功", {time : 1500, icon : 1});
+							        		$("#closebtu").click();
+							        		$("#table").bootstrapTable('refresh');
+							        	}else{
+							        		layer.msg(result.rmsg, {time : 1500, icon : 5});
+							        	}
+							          },
+							          error:function(){
+							        	layer.msg("网络异常！", {time : 1500, icon : 5});
+							          }
+							   });
+                			}
+                		});
                 	});
                 </script>
 				</div>
@@ -394,11 +538,12 @@ $(function(){
 	                <h4 class="modal-title" id="myModalLabel">编辑供应商联系人</h4>
 	            </div>
 	            <div class="modal-body">
-	            	<form class="form-horizontal" role="form">
+	            	<form class="form-horizontal" role="form" id="userform">
 					   <div class="form-group">
 						    <label for="firstname" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;名</label>
 						    <div class="col-sm-10">
 						      <input type="text" class="form-control" id="firstname" placeholder="请输入姓名">
+						      <input type="hidden" id="supplierUserId">
 						    </div>
 					    </div>
 					    <div class="form-group">
@@ -495,6 +640,7 @@ $(function(){
                 		$("#adduser").click(function(){
                 			$("#userModalAdd").show();
                 			$("#userModalUpdate").hide();
+                			document.getElementById("userform").reset();
                 			$("#userModalBtu").click();
                 		});
                 		
@@ -521,7 +667,51 @@ $(function(){
 											useremail:$("#useremail").val(),
 											hobby:$("#hobby").val(),
 											exprice:$("#exprice").val(),
-											note:$("#usernote").text()
+											note:$("#usernote").val()
+								 	  }),
+								 	  contentType: 'application/json; charset=UTF-8',
+								      dataType:'json',
+							          success: function (result) {
+							        	if(result.rcode ==  "000000"){
+							        		layer.msg("操作成功", {time : 1500, icon : 1});
+							        		$("#userModalClose").click();
+							        		$("#usertable").bootstrapTable('refresh');
+							        	}else{
+							        		layer.msg(result.rmsg, {time : 1500, icon : 5});
+							        	}
+							          },
+							          error:function(){
+							        	layer.msg("网络异常！", {time : 1500, icon : 5});
+							          }
+							   });
+                			}
+                		});
+                		
+                		
+                		$("#userModalUpdate").click(function(){
+                			if($("#firstname").val()==""){
+                				layer.msg("请输入联系人姓名", {time : 1500, icon : 5});
+                			}else{
+                				$.ajax({
+							          type: "post",
+							          url: "<%=basePath%>system/manager/updateSupplierUser" ,
+							          data :JSON.stringify({
+											uid:storage.managerId,
+											appId:1,
+											supplierUserId:$("#supplierUserId").val(),
+											userName:$("#firstname").val(),
+											userSex:$("#usersex").val(),
+											birthday:$("#birthday").val(),
+											apartment:$("#apartment").val(),
+											role:$("#role").val(),
+											userphone:$("#userphone").val(),
+											userfax:$("#userfax").val(),
+											mobile:$("#mobile").val(),
+											wechat:$("#wechat").val(),
+											useremail:$("#useremail").val(),
+											hobby:$("#hobby").val(),
+											exprice:$("#exprice").val(),
+											note:$("#usernote").val()
 								 	  }),
 								 	  contentType: 'application/json; charset=UTF-8',
 								      dataType:'json',

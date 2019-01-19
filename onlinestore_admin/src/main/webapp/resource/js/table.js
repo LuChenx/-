@@ -50,10 +50,8 @@
 				layer.msg("加载数据失败", {time : 1500, icon : 5});
 			},
 			
-		    showExport: false,              //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
-		    exportDataType: "all",              //basic', 'all', 'selected'.
-		    exportTypes:['xlsx'],	    //导出类型['json', 'xml', 'csv', 'txt', 'sql',  'xlsx', 'excel'],若想要绑定自己的按钮的话数组第一个为导出类型，默认xlsx
-		    exportButton: $(btnExportId),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+		    showExport: false,              
+		    exportDataType: "basic",              //basic', 'all', 'selected'.
 		    exportOptions:{
 		        fileName: '导出数据',              //文件名称设置  
 		        worksheetName: 'Sheet1',          //表格工作区名称  
