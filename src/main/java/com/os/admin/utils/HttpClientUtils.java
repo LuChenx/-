@@ -40,6 +40,8 @@ public class HttpClientUtils
 		JSONObject resultJson = new JSONObject();
 		try
 		{
+			logger.info("url:" + url);
+			logger.info("param:" + jsonObject.toJSONString());
 			httpClient = new SSLClient();
 			httpPost = new HttpPost(url);
 			List<NameValuePair> list = new ArrayList<NameValuePair>();
@@ -48,6 +50,7 @@ public class HttpClientUtils
 			entity.setContentType("application/json");
 			httpPost.setEntity(entity);
 			HttpResponse response = httpClient.execute(httpPost);
+			logger.info("response:" + response.toString());
 			if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
 			{
 				HttpEntity resEntity = response.getEntity();
